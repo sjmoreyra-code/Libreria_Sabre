@@ -1,0 +1,28 @@
+{% extends "Administrador/base.html" %}
+{% load static %}
+
+{% block title %}
+    Servicio Braille - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+<main class="main-content">
+    <section class="products-section">
+        <div class="products-header">
+            <h1 class="section-title uppercase tracking-wider">
+                Publicaciones en Braille
+            </h1>
+        </div>
+        <div class="table-container p-6">
+            <p class="mb-4 font-body-lg">
+                Contamos con una amplia sala físico-virtual dedicada a textos impresos en relieve bajo el sistema Braille para todas las edades.
+            </p>
+            <ul class="list-disc list-inside space-y-3 font-body-lg">
+                <li>Libros infantiles táctiles con texturas combinadas.</li>
+                <li>Revistas de divulgación científica y noticias de actualidad.</li>
+                <li>Impresión a demanda de documentos breves para los usuarios asociados.</li>
+            </ul>
+        </div>
+    </section>
+</main>
+{% endblock codigoDinamico %}

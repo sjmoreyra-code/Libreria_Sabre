@@ -1,0 +1,59 @@
+{% extends "Administrador/base.html" %}
+{% load static %}
+
+{% block title %}
+    Acceso Administrador - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+<main class="main-content flex justify-center items-center py-12">
+    <section class="products-section w-full max-w-md mx-auto">
+        <div class="products-header text-center mb-6">
+            <h1 class="section-title uppercase tracking-wider text-2xl font-bold text-yellow-400">
+                Acceso Administrador
+            </h1>
+        </div>
+
+        <div class="table-container p-6 bg-black/60 border-2 border-yellow-500 rounded-lg shadow-2xl">
+            {% if messages %}
+                <div class="mb-4">
+                    {% for message in messages %}
+                        <div class="p-3 mb-2 rounded text-sm {% if message.tags == 'error' %}bg-red-900/80 text-red-200 border border-red-500{% else %}bg-green-900/80 text-green-200 border border-green-500{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+                
+                <div class="mb-4">
+                    <label for="username" class="block text-sm font-medium mb-1 text-primary">
+                        Usuario Admin:
+                    </label>
+                    <input type="text" id="username" name="username" required
+                        class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-white focus:border-yellow-500">
+                </div>
+
+                <div class="mb-6">
+                    <label for="password" class="block text-sm font-medium mb-1 text-primary">
+                        Clave de Administrador:
+                    </label>
+                    <input type="password" id="password" name="password" required
+                        class="w-full p-2.5 bg-gray-900 border border-gray-700 rounded text-white focus:border-yellow-500">
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <button type="submit" class="btn-nuevo-libro text-center w-full justify-center" style="background-color: #ffd700; color: #000;">
+                        Ingresar Panel Admin
+                    </button>
+                    <a href="{% url 'login' %}" class="btn-buscar-libros text-center justify-center">
+                        Volver a Login Usuario
+                    </a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+{% endblock codigoDinamico %}

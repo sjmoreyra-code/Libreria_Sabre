@@ -1,0 +1,95 @@
+
+{% extends "Administrador/base.html" %}
+{% load static %}
+
+{% block title %}
+    Términos y Condiciones - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+
+<div class="container" style="max-width: 900px; margin: 3rem auto; padding: 2rem; background: #f8fafc; border-radius: 12px;">
+
+    <div style="background: #ffffff; border-radius: 12px; padding: 2rem; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+
+        <h1 style="font-size: 1.8rem; font-weight: 800; color: #0f172a; margin-bottom: 0.75rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 1rem;">
+            Términos y Condiciones
+        </h1>
+
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 2rem;">
+            Biblioteca SaBré · Última actualización: Octubre de 2026.
+        </p>
+
+        <section style="margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.15rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">
+                1. Aceptación de los Términos
+            </h2>
+
+            <p style="font-size: 0.95rem; line-height: 1.7; color: #334155;">
+                Al acceder y utilizar la plataforma web de Biblioteca SaBré,
+                las personas usuarias aceptan los presentes términos y
+                condiciones de uso, así como la legislación vigente
+                aplicable en la República Argentina.
+            </p>
+
+            <p style="font-size: 0.95rem; line-height: 1.7; color: #334155;">
+                El uso de los servicios implica el compromiso de respetar
+                las normas de convivencia, las disposiciones de la
+                biblioteca y los derechos de las demás personas usuarias.
+            </p>
+        </section>
+
+        <section style="margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.15rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">
+                2. Cuentas de Usuario y Seguridad
+            </h2>
+
+            <p style="font-size: 0.95rem; line-height: 1.7; color: #334155;">
+                Cada persona usuaria es responsable de mantener la
+                confidencialidad de sus credenciales de acceso y de
+                utilizar su cuenta de manera personal y responsable.
+            </p>
+
+            <p style="font-size: 0.95rem; line-height: 1.7; color: #334155;">
+                La información proporcionada durante el registro deberá
+                ser veraz y mantenerse actualizada. Ante cualquier
+                sospecha de uso no autorizado de una cuenta, se
+                recomienda comunicarlo a la administración de
+                Biblioteca SaBré.
+            </p>
+        </section>
+
+        <section style="margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.15rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">
+                3. Disponibilidad del Catálogo y Servicios Bibliotecarios
+            </h2>
+
+            <p style="font-size: 0.95rem; line-height: 1.7; color: #334155;">
+                La disponibilidad de los libros y materiales incluidos
+                en el catálogo está sujeta a las existencias y al estado
+                de cada ejemplar en la biblioteca.
+            </p>
+
+            <p style="font-size: 0.95rem; line-height: 1.7; color: #334155;">
+                Los préstamos, renovaciones y devoluciones deberán
+                realizarse de acuerdo con las condiciones y plazos
+                establecidos por Biblioteca SaBré. La información
+                disponible en la plataforma podrá actualizarse
+                conforme a la gestión de los servicios bibliotecarios.
+            </p>
+        </section>
+
+        <div style="border-top: 1px solid #e2e8f0; margin-top: 2rem; padding-top: 1.5rem; display: flex; justify-content: flex-end;">
+
+            <a href="{% url 'index' %}"
+               style="background: #0f172a; color: #ffffff; padding: 0.7rem 1.2rem; border-radius: 6px; font-weight: 700; text-decoration: none; display: inline-block;">
+                Volver al inicio
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock codigoDinamico %}

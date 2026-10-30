@@ -1,0 +1,35 @@
+{% extends "Administrador/base.html" %}
+{% load static %}
+
+{% block title %}
+    Colección de Audiolibros - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+<main class="main-content">
+    <section class="products-section">
+        <div class="products-header">
+            <h1 class="section-title uppercase tracking-wider">
+                Servicio de Audiolibros
+            </h1>
+        </div>
+        <div class="table-container p-6">
+            <p class="mb-6 font-body-lg">
+                Disponemos de una extensa colección de literatura en formato de audio grabado por narradores profesionales y sintetizadores de voz de alta calidad.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="service-card p-4">
+                    <span class="material-symbols-outlined icon-fill text-4xl mb-2">graphic_eq</span>
+                    <h3 class="service-card-title text-lg font-bold mb-1">Catálogo Narrado</h3>
+                    <p class="service-card-text">Obras de ficción, historia, poesía y ensayos leídos por narradores humanos.</p>
+                </div>
+                <div class="service-card p-4">
+                    <span class="material-symbols-outlined icon-fill text-4xl mb-2">podcasts</span>
+                    <h3 class="service-card-title text-lg font-bold mb-1">Reproductores Accesibles</h3>
+                    <p class="service-card-text">Préstamo de dispositivos con botones en relieve e instrucciones auditivas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock codigoDinamico %}

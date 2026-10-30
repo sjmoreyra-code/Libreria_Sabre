@@ -1,0 +1,51 @@
+{% extends 'Administrador/index.html' %}
+
+{% block title %}
+Registrarse - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+
+<main class="main-content">
+
+    <section class="services-section registrarse-section">
+        <h1 class="section-title">
+            Registrarse
+        </h1>
+
+        <p class="hero-description">
+            Creá tu cuenta de lector para acceder a los
+            servicios de la Biblioteca SaBré.
+        </p>
+
+        <div class="services-grid">
+
+            <!-- Registro de usuario -->
+            <div class="service-card">
+                <div class="service-icon-box">
+                    <span class="material-symbols-outlined">
+                        person_add
+                    </span>
+                </div>
+
+                <h2 class="service-card-title">
+                    Usuario
+                </h2>
+
+                <p class="service-card-text">
+                    Registrate para consultar el catálogo
+                    y utilizar los servicios de la biblioteca.
+                </p>
+
+                <a href="{% url 'usuario_registro' %}"
+                   class="btn-nuevo-libro">
+                    Registrarme como usuario
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+{% endblock codigoDinamico %}

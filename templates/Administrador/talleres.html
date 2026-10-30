@@ -1,0 +1,33 @@
+{% extends "Administrador/base.html" %}
+{% load static %}
+
+{% block title %}
+    Talleres Culturales - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+<main class="main-content">
+    <section class="products-section">
+        <div class="products-header">
+            <h1 class="section-title uppercase tracking-wider">
+                Talleres e Integración
+            </h1>
+        </div>
+        <div class="table-container p-6">
+            <p class="mb-4 font-body-lg">
+                Ofrecemos espacios de capacitación y encuentro diseñados inclusivamente para fortalecer la autonomía personal y la expresión cultural.
+            </p>
+            <div class="space-y-4">
+                <div class="border-l-4 border-yellow-500 pl-4 py-2">
+                    <h3 class="font-bold text-lg">Taller de Lectura Compartida</h3>
+                    <p class="text-sm">Encuentros semanales donde debatimos obras literarias leídas en diversos formatos.</p>
+                </div>
+                <div class="border-l-4 border-yellow-500 pl-4 py-2">
+                    <h3 class="font-bold text-lg">Iniciación al Sistema Braille</h3>
+                    <p class="text-sm">Cursos prácticos para familiares, educadores y público general interesados en la lectoescritura táctil.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock codigoDinamico %}

@@ -1,0 +1,406 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+  <meta content="mobile_tab" name="shell-type">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;800;900&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+  
+  <!-- Carga de Tailwind CDN y Scripts JS de Configuración/Lógica -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="{% static 'Usuario/main.js' %}"></script>
+  
+  <!-- Estilos Personalizados -->
+  <link rel="stylesheet" href="{% static 'Usuario/style.css' %}">
+</head>
+<body class="bg-surface font-body-base text-on-surface antialiased">
+  <header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]">
+    <div class="h-16 px-gutter-mobile flex items-center justify-between">
+      <div class="flex items-center gap-space-sm">
+        <button type="button"
+                id="boton-menu"
+                aria-label="Abrir menú"
+                aria-expanded="false"
+                aria-controls="menu-lateral"
+                class="w-12 h-12 flex items-center justify-center text-primary hover:text-primary-container transition-colors">
+            <span class="material-symbols-outlined text-[26px]">menu</span>
+        </button>
+        <div class="flex flex-col">
+          <span class="font-headline-lg-mobile text-headline-lg-mobile text-primary-container uppercase tracking-tight">BIBLIOTECA SaBré</span>
+          <span class="font-label-uppercase text-label-uppercase text-on-surface-variant uppercase tracking-wider">Mis Préstamos</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-xs">
+        <button aria-label="Opciones de Accesibilidad" class="h-11 px-space-sm flex items-center gap-1 bg-surface-container hover:bg-surface-container-high text-primary-container font-button-text text-button-text uppercase transition-colors">
+          <span class="material-symbols-outlined text-[20px]">accessibility_new</span>
+          <span class="hidden xs:inline text-xs">Acceso</span>
+        </button>
+        <button id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Cambiar tema claro u oscuro" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center shrink-0 text-primary-container transition-colors focus:outline-none">
+          <span id="theme-toggle-icon" class="material-symbols-outlined text-[18px]">dark_mode</span>
+        </button>
+        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+<div id="fondo-menu" class="fondo-menu" hidden></div>
+
+<aside id="menu-lateral"
+        class="menu-lateral"
+        aria-label="Menú principal"
+        aria-hidden="true"
+        inert>
+
+    <div class="menu-lateral-cabecera">
+        <strong>BIBLIOTECA SaBré</strong>
+        <button type="button" id="cerrar-menu" aria-label="Cerrar menú">✕</button>
+    </div>
+
+    <nav class="menu-lateral-enlaces">
+        <a href="{% url 'index_usuario' %}">Inicio</a>
+        <a href="{% url 'usuario_catalogo' %}">Catálogo</a>
+        <a href="{% url 'usuario_prestamos' %}" aria-current="page">Préstamos</a>
+        <a href="{% url 'usuario_historial' %}">Historial</a>
+        <a href="{% url 'usuario_comunidad' %}">Comunidad</a>
+        <a href="{% url 'usuario_perfil' %}">Perfil</a>
+    </nav>
+</aside>
+
+  <main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen px-gutter-mobile">
+    <div class="flex flex-col w-full pb-8">
+      <div class="flex flex-col w-full gap-space-sm">
+        <!-- Tab Selector -->
+        <div aria-label="Filtros de Préstamos" class="w-full bg-surface-container-lowest p-space-xs rounded-xl flex gap-space-xs" role="tablist">
+          <button aria-controls="tab-actuales" aria-selected="true" class="flex-1 py-space-sm px-space-xs rounded-lg font-button-text text-button-text uppercase transition-all duration-200 flex items-center justify-center gap-space-xs bg-primary-container text-on-primary-fixed shadow-md" id="tab-btn-actuales" onclick="switchTab('actuales')" role="tab">
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+            <span class="">Actuales (2)</span>
+          </button>
+          <button aria-controls="tab-historial" aria-selected="false" class="flex-1 py-space-sm px-space-xs rounded-lg font-button-text text-button-text uppercase transition-all duration-200 flex items-center justify-center gap-space-xs bg-surface-container text-on-surface-variant hover:text-primary" id="tab-btn-historial" onclick="switchTab('historial')" role="tab">
+            <span class="material-symbols-outlined text-[20px]">history</span>
+            <span class="">Historial (8)</span>
+          </button>
+        </div>
+
+        <!-- SECCIÓN OBLIGATORIA DESTACADA: Recordatorio Automático -->
+        <section aria-labelledby="heading-recordatorios" class="w-full rounded-xl bg-surface-container-high shadow-xl flex flex-col gap-space-sm relative overflow-hidden p-space-sm">
+          <div class="flex items-center gap-space-sm">
+            <div class="w-11 h-11 rounded-lg bg-primary-container flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-on-primary-fixed text-[26px]">notifications_active</span>
+            </div>
+            <div class="flex flex-col min-w-0">
+              <span class="font-label-uppercase text-label-uppercase text-primary-container uppercase tracking-wider">Sistema Automatizado</span>
+              <h2 class="font-title-card text-title-card text-primary font-extrabold truncate" id="heading-recordatorios">Recordatorio Automático de Préstamos</h2>
+            </div>
+          </div>
+          <p class="font-body-base text-body-base text-on-surface leading-relaxed">
+            El sistema emite alertas preventivas <span class="text-primary-container font-bold">24 horas antes</span> de cada vencimiento mediante mensajería directa y correo institucional.
+          </p>
+
+          <!-- Canales Vinculados -->
+          <div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col gap-space-xs">
+            <div class="flex items-center gap-space-xs text-primary-container">
+              <span class="material-symbols-outlined text-[18px]">verified</span>
+              <span class="font-label-uppercase text-label-uppercase uppercase">Aviso automático activo</span>
+            </div>
+            <div class="flex flex-col gap-1 font-body-sm text-body-sm text-on-surface">
+              <div class="flex items-center gap-space-xs">
+                <span class="material-symbols-outlined text-[18px] text-on-surface-variant">chat</span>
+                <span class="">WhatsApp: <strong class="text-primary">+54 9 11 ***-****</strong></span>
+              </div>
+              <div class="flex items-center gap-space-xs">
+                <span class="material-symbols-outlined text-[18px] text-on-surface-variant">mail</span>
+                <span class="">Email: <strong class="text-primary">usuario@***.com</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta de vista previa del recordatorio -->
+          <div class="bg-surface-container rounded-lg p-space-sm flex flex-col gap-space-xs shadow-inner">
+            <div class="flex items-center justify-between text-on-surface-variant">
+              <span class="font-label-uppercase text-label-uppercase text-[11px] uppercase flex items-center gap-1">
+                <span class="material-symbols-outlined text-[16px] text-primary-container">preview</span>
+                Vista previa del mensaje automatizado
+              </span>
+              <span class="font-body-sm text-body-sm text-primary-container">Mañana 18:00 hs</span>
+            </div>
+            <div class="bg-surface-container-lowest p-space-sm rounded-lg font-body-sm text-body-sm text-primary flex gap-space-sm items-start">
+              <span class="material-symbols-outlined text-primary-container text-[22px] shrink-0 mt-0.5">alarm</span>
+              <div class="flex flex-col gap-1">
+                <p class="text-on-surface">
+                  ⏰ Tu préstamo de <strong class="text-primary">“Don Quijote de la Mancha”</strong> vence en 24 horas (Mañana a las 18:00 hs). Recordá devolver el libro en sede o renovarlo si no tiene reservas activas.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Aclaración explícita -->
+          <div class="flex items-center gap-space-xs pt-1 text-on-surface-variant">
+            <span class="material-symbols-outlined text-[18px] text-primary-container shrink-0">check_circle</span>
+            <span class="font-body-sm text-body-sm italic">Proceso automático gestionado por el sistema de la biblioteca. No requiere activación manual.</span>
+          </div>
+        </section>
+
+        <!-- PESTAÑA: Préstamos Actuales -->
+        <div aria-label="Préstamos Actuales" class="flex flex-col w-full gap-space-sm" id="tab-actuales" role="tabpanel">
+          <!-- Regla Comunitaria Visible -->
+          <div class="bg-surface-container-low p-space-sm rounded-lg flex items-start gap-space-sm">
+            <span class="material-symbols-outlined text-primary-container text-[20px] shrink-0 mt-0.5">info</span>
+            <p class="font-body-sm text-body-sm text-on-surface">
+              La renovación está sujeta a disponibilidad y ausencia de reservas pendientes de otros socios de la comunidad.
+            </p>
+          </div>
+
+          <!-- Tarjeta 1: Don Quijote de la Mancha -->
+          <article class="bg-surface-container rounded-xl shadow-lg flex flex-col relative overflow-hidden p-space-sm gap-space-sm">
+            <div class="flex gap-space-md">
+              <!-- Thumbnail Libro -->
+              <div class="w-24 h-32 rounded-lg bg-surface-container-lowest overflow-hidden shrink-0 shadow-md relative">
+                <img class="w-full h-full object-cover" data-alt="Tapa rústica y sobria del clásico Don Quijote de la Mancha en encuadernación de cuero negro con tipografía grabada en tono marfil y detalles en amarillo intenso, iluminación lateral dramática sobre mesa de madera oscura." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiRd-p-EkzsInoPjl1zdMIiFrWZZFeEC8U9rVAcpNB_QbWTDXqMjjpAXF6iRVSNdLkUCthCb-1di2daEpx_Q3F_8L6ANV-8UgL7Y0GGjadequeJJk6zraJ3lkuCMo1SO-GmKv6QqBG7UH2v_65si4AlP5iE9B8q_6YK9T6AncxLpE7T6Ap9d3OIf4S2Ia-4f4JsvY8sUuOxhFzJA2w1JMcoxxGZjPS67UnGop-XFo34wwaWdjz0RXMEw">
+                <div class="absolute bottom-1 left-1 bg-surface-container-lowest/90 px-1.5 py-0.5 rounded font-label-uppercase text-[10px] text-primary uppercase">Físico</div>
+              </div>
+              <!-- Metadata -->
+              <div class="flex flex-col justify-between flex-1 min-w-0">
+                <div class="flex flex-col gap-1">
+                  <!-- Alerta 24 horas Badge -->
+                  <div class="inline-flex items-center gap-1 bg-primary-container text-on-primary-fixed font-label-uppercase text-label-uppercase px-space-xs py-0.5 rounded-DEFAULT w-fit">
+                    <span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+                    <span class="">Próximo a vencer (24h)</span>
+                  </div>
+                  <h3 class="font-title-card text-title-card text-primary font-bold line-clamp-2 mt-1">Don Quijote de la Mancha</h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant truncate">Miguel de Cervantes Saavedra</p>
+                </div>
+                <!-- Fechas -->
+                <div class="bg-surface-container-lowest p-space-xs rounded-lg flex flex-col gap-1 mt-2">
+                  <div class="flex justify-between font-body-sm text-body-sm">
+                    <span class="text-on-surface-variant">Préstamo:</span>
+                    <span class="text-on-surface font-medium">10/10/2024</span>
+                  </div>
+                  <div class="flex justify-between font-body-sm text-body-sm">
+                    <span class="text-error font-bold">Devolución:</span>
+                    <span class="text-error font-extrabold">24/10/2024 (18:00 hs)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Acciones principales accesibles con dedos -->
+            <div class="flex flex-col sm:flex-row gap-space-sm pt-space-xs">
+              <button class="flex-1 min-h-[48px] px-space-md py-space-sm bg-primary-container text-on-primary-fixed rounded-lg font-button-text text-button-text uppercase tracking-wider flex items-center justify-center gap-space-xs shadow hover:bg-primary transition-colors focus:ring-2 focus:ring-primary-container focus:ring-offset-2 focus:ring-offset-surface" onclick="handleAction('renovar', 'Don Quijote de la Mancha')" type="button">
+                <span class="material-symbols-outlined text-[22px]">autorenew</span>
+                <span class="">Renovar Préstamo</span>
+              </button>
+              <button class="flex-1 min-h-[48px] px-space-md py-space-sm bg-surface-container-lowest text-error-container hover:bg-error-container hover:text-on-error rounded-lg font-button-text text-button-text uppercase tracking-wider flex items-center justify-center gap-space-xs transition-colors focus:ring-2 focus:ring-error focus:ring-offset-2 focus:ring-offset-surface" onclick="handleAction('devolver', 'Don Quijote de la Mancha')" type="button">
+                <span class="material-symbols-outlined text-[22px]">keyboard_return</span>
+                <span class="">Devolver Libro</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Tarjeta 2: Economía Política -->
+          <article class="bg-surface-container rounded-xl shadow-lg flex flex-col relative overflow-hidden p-space-sm gap-space-sm">
+            <div class="flex gap-space-md">
+              <!-- Thumbnail Libro -->
+              <div class="w-24 h-32 rounded-lg bg-surface-container-lowest overflow-hidden shrink-0 shadow-md relative">
+                <img class="w-full h-full object-cover" data-alt="Portada académica moderna del libro Economía Política con infografías abstractas geométricas de alto contraste en blanco y carbón con acentos vibrantes de tono lima amarillo sobre fondo mate." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKtAAJ--CViX3v6seAbs0zHRTzluPKeBG4Ts0LhYvnuqGhzb0stTEw9aRce31nRkMkbU2IBTAGasFKjR1LwGqVTm14ZWRRCJCYQvOBG_rbJ3BB8Sqt7UXaZKgU3-gcyBGSNPcfWs1R4QMJqkMISsJjJXLOUk2v_LDkxmysWbBWVRxtBXeHfGaEIWADuopJz4aQCkCXJiRTeGmb5DBUc_IWRqhBQwx9lFYp90nPLCJrGyc5tlKwIgxbgw">
+                <div class="absolute bottom-1 left-1 bg-surface-container-lowest/90 px-1.5 py-0.5 rounded font-label-uppercase text-[10px] text-primary uppercase">Físico</div>
+              </div>
+              <!-- Metadata -->
+              <div class="flex flex-col justify-between flex-1 min-w-0">
+                <div class="flex flex-col gap-1">
+                  <!-- Estado Badge Activo -->
+                  <div class="inline-flex items-center gap-1 bg-surface-container-highest text-primary-container font-label-uppercase text-label-uppercase px-space-xs py-0.5 rounded-DEFAULT w-fit">
+                    <span class="material-symbols-outlined text-[15px]">event_available</span>
+                    <span class="">Activo (quedan 8 días)</span>
+                  </div>
+                  <h3 class="font-title-card text-title-card text-primary font-bold line-clamp-2 mt-1">Economía Política</h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant truncate">Rosa Luxemburgo</p>
+                </div>
+                <!-- Fechas -->
+                <div class="bg-surface-container-lowest p-space-xs rounded-lg flex flex-col gap-1 mt-2">
+                  <div class="flex justify-between font-body-sm text-body-sm">
+                    <span class="text-on-surface-variant">Préstamo:</span>
+                    <span class="text-on-surface font-medium">18/10/2024</span>
+                  </div>
+                  <div class="flex justify-between font-body-sm text-body-sm">
+                    <span class="text-on-surface-variant">Devolución:</span>
+                    <span class="text-primary font-bold">02/11/2024</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Acciones -->
+            <div class="flex flex-col sm:flex-row gap-space-sm pt-space-xs">
+              <button class="flex-1 min-h-[48px] px-space-md py-space-sm bg-primary-container text-on-primary-fixed rounded-lg font-button-text text-button-text uppercase tracking-wider flex items-center justify-center gap-space-xs shadow hover:bg-primary transition-colors focus:ring-2 focus:ring-primary-container focus:ring-offset-2 focus:ring-offset-surface" onclick="handleAction('renovar', 'Economía Política')" type="button">
+                <span class="material-symbols-outlined text-[22px]">autorenew</span>
+                <span class="">Renovar</span>
+              </button>
+              <button class="flex-1 min-h-[48px] px-space-md py-space-sm bg-surface-container-lowest text-primary hover:bg-surface-container-highest rounded-lg font-button-text text-button-text uppercase tracking-wider flex items-center justify-center gap-space-xs transition-colors focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface" onclick="handleAction('ficha', 'Economía Política')" type="button">
+                <span class="material-symbols-outlined text-[22px]">visibility</span>
+                <span class="">Ver Ficha</span>
+              </button>
+            </div>
+          </article>
+        </div>
+
+        <!-- PESTAÑA: Historial (8) (Oculta inicialmente) -->
+        <div aria-label="Historial de Préstamos" class="hidden flex-col gap-space-sm w-full" id="tab-historial" role="tabpanel">
+          <!-- Resumen Histórico -->
+          <div class="flex items-center justify-between p-space-sm bg-surface-container-lowest rounded-lg">
+            <span class="font-label-uppercase text-label-uppercase text-on-surface-variant uppercase">Total devueltos a término</span>
+            <span class="font-button-text text-button-text text-primary-container bg-surface-container px-2.5 py-1 rounded">8 Ejemplares</span>
+          </div>
+          <!-- Item Historial 1 -->
+          <div class="p-space-md bg-surface-container rounded-xl flex items-center justify-between gap-space-sm">
+            <div class="flex items-center gap-space-sm min-w-0">
+              <div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-primary text-[22px]">task_alt</span>
+              </div>
+              <div class="flex flex-col min-w-0">
+                <h4 class="font-title-card text-title-card text-primary font-bold truncate">Ficciones</h4>
+                <span class="font-body-sm text-body-sm text-on-surface-variant truncate">Jorge Luis Borges</span>
+                <span class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">Devuelto el 01/10/2024</span>
+              </div>
+            </div>
+            <button aria-label="Volver a solicitar Ficciones" class="h-11 px-space-sm bg-surface-container-lowest hover:bg-primary-container hover:text-on-primary-fixed text-primary rounded-lg font-button-text text-button-text uppercase transition-colors shrink-0 flex items-center gap-1" onclick="handleAction('re-pedir', 'Ficciones')" type="button">
+              <span class="material-symbols-outlined text-[18px]">repeat</span>
+              <span class="hidden sm:inline">Pedir</span>
+            </button>
+          </div>
+          <!-- Item Historial 2 -->
+          <div class="p-space-md bg-surface-container rounded-xl flex items-center justify-between gap-space-sm">
+            <div class="flex items-center gap-space-sm min-w-0">
+              <div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-primary text-[22px]">task_alt</span>
+              </div>
+              <div class="flex flex-col min-w-0">
+                <h4 class="font-title-card text-title-card text-primary font-bold truncate">Rayuela</h4>
+                <span class="font-body-sm text-body-sm text-on-surface-variant truncate">Julio Cortázar</span>
+                <span class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">Devuelto el 14/09/2024</span>
+              </div>
+            </div>
+            <button aria-label="Volver a solicitar Rayuela" class="h-11 px-space-sm bg-surface-container-lowest hover:bg-primary-container hover:text-on-primary-fixed text-primary rounded-lg font-button-text text-button-text uppercase transition-colors shrink-0 flex items-center gap-1" onclick="handleAction('re-pedir', 'Rayuela')" type="button">
+              <span class="material-symbols-outlined text-[18px]">repeat</span>
+              <span class="hidden sm:inline">Pedir</span>
+            </button>
+          </div>
+          <!-- Item Historial 3 -->
+          <div class="p-space-md bg-surface-container rounded-xl flex items-center justify-between gap-space-sm">
+            <div class="flex items-center gap-space-sm min-w-0">
+              <div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-primary text-[22px]">task_alt</span>
+              </div>
+              <div class="flex flex-col min-w-0">
+                <h4 class="font-title-card text-title-card text-primary font-bold truncate">El Aleph</h4>
+                <span class="font-body-sm text-body-sm text-on-surface-variant truncate">Jorge Luis Borges</span>
+                <span class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">Devuelto el 28/08/2024</span>
+              </div>
+            </div>
+            <button aria-label="Volver a solicitar El Aleph" class="h-11 px-space-sm bg-surface-container-lowest hover:bg-primary-container hover:text-on-primary-fixed text-primary rounded-lg font-button-text text-button-text uppercase transition-colors shrink-0 flex items-center gap-1" onclick="handleAction('re-pedir', 'El Aleph')" type="button">
+              <span class="material-symbols-outlined text-[18px]">repeat</span>
+              <span class="hidden sm:inline">Pedir</span>
+            </button>
+          </div>
+          <!-- Item Historial 4 -->
+          <div class="p-space-md bg-surface-container rounded-xl flex items-center justify-between gap-space-sm">
+            <div class="flex items-center gap-space-sm min-w-0">
+              <div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-primary text-[22px]">task_alt</span>
+              </div>
+              <div class="flex flex-col min-w-0">
+                <h4 class="font-title-card text-title-card text-primary font-bold truncate">Cien Años de Soledad</h4>
+                <span class="font-body-sm text-body-sm text-on-surface-variant truncate">Gabriel García Márquez</span>
+                <span class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">Devuelto el 11/08/2024</span>
+              </div>
+            </div>
+            <button aria-label="Volver a solicitar Cien Años de Soledad" class="h-11 px-space-sm bg-surface-container-lowest hover:bg-primary-container hover:text-on-primary-fixed text-primary rounded-lg font-button-text text-button-text uppercase transition-colors shrink-0 flex items-center gap-1" onclick="handleAction('re-pedir', 'Cien Años de Soledad')" type="button">
+              <span class="material-symbols-outlined text-[18px]">repeat</span>
+              <span class="hidden sm:inline">Pedir</span>
+            </button>
+          </div>
+          <!-- Ver más historial -->
+          <button class="w-full py-space-sm bg-surface-container-lowest hover:bg-surface-container text-on-surface font-button-text text-button-text uppercase rounded-lg transition-colors flex items-center justify-center gap-space-xs mt-2" onclick="alert('Mostrando 4 préstamos anteriores completados en el período 2023-2024.')" type="button">
+            <span class="">Cargar 4 registros anteriores</span>
+            <span class="material-symbols-outlined text-[20px]">expand_more</span>
+          </button>
+        </div>
+
+        <!-- Toast de Notificación Dinámica -->
+        <div class="fixed bottom-20 left-4 right-4 max-w-md mx-auto bg-surface-container-highest p-space-sm rounded-lg shadow-2xl flex items-center gap-space-sm transform translate-y-32 opacity-0 pointer-events-none transition-all duration-300 z-50" id="action-toast">
+          <div class="w-9 h-9 rounded-md bg-primary-container flex items-center justify-center shrink-0" id="toast-icon-wrapper">
+            <span class="material-symbols-outlined text-on-primary-fixed text-[20px]" id="toast-icon">check</span>
+          </div>
+          <div class="flex flex-col min-w-0 flex-1">
+            <span class="font-button-text text-button-text text-primary" id="toast-title">Operación exitosa</span>
+            <span class="font-body-sm text-body-sm text-on-surface-variant truncate" id="toast-message">Detalles de la acción</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  
+<!-- NAVEGACIÓN INFERIOR -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.5)]"
+      data-active-classes="text-primary-container font-bold">
+
+    <div class="flex justify-around items-center h-16 px-space-xs">
+
+        <!-- Inicio -->
+        <a href="{% url 'index_usuario' %}"
+          class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[24px]">home</span>
+            <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Inicio</span>
+        </a>
+
+        <!-- Catálogo -->
+        <a href="{% url 'usuario_catalogo' %}"
+          class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[24px]">menu_book</span>
+            <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Catálogo</span>
+        </a>
+
+        <!-- Préstamos ACTIVO -->
+        <a href="{% url 'usuario_prestamos' %}"
+          aria-current="page"
+          class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-primary-container font-bold relative transition-colors">
+
+            <div class="relative flex items-center justify-center">
+                <span class="material-symbols-outlined text-[24px]">schedule</span>
+                <span class="absolute -top-1 -right-2 w-2.5 h-2.5 rounded-full bg-primary-container ring-2 ring-surface-container-lowest"></span>
+            </div>
+
+            <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Préstamos</span>
+        </a>
+
+        <!-- Historial -->
+        <a href="{% url 'usuario_historial' %}"
+          class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[24px]">history</span>
+            <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Historial</span>
+        </a>
+
+        <!-- Comunidad -->
+        <a href="{% url 'usuario_comunidad' %}"
+          class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[24px]">groups</span>
+            <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Comunidad</span>
+        </a>
+
+        <!-- Perfil -->
+        <a href="{% url 'usuario_perfil' %}"
+          class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[24px]">account_circle</span>
+            <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Perfil</span>
+        </a>
+
+    </div>
+</nav>
+
+</body>
+</html>

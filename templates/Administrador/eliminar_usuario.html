@@ -1,0 +1,49 @@
+
+{% extends "Administrador/index.html" %}
+{% load static %}
+
+{% block title %}
+    Eliminar Usuario - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+
+<main class="main-content">
+    <section class="products-section">
+
+        <div class="products-header">
+            <h1 class="section-title uppercase tracking-wider">
+                ELIMINAR USUARIO
+            </h1>
+        </div>
+
+        <div class="form-container">
+            <p>
+                ¿Estás segura de que querés eliminar este usuario?
+            </p>
+
+            <p>
+                <strong>Nombre:</strong> {{ usuario.nombre_usuario }}
+            </p>
+
+            <p>
+                <strong>Correo electrónico:</strong> {{ usuario.email_usuario }}
+            </p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <button type="submit" class="btn-eliminar">
+                    Sí, eliminar usuario
+                </button>
+
+                <a href="{% url 'usuarios' %}" class="btn-buscar-usuarios">
+                    Cancelar
+                </a>
+            </form>
+        </div>
+
+    </section>
+</main>
+
+{% endblock codigoDinamico %}

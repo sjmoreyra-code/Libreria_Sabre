@@ -1,0 +1,108 @@
+
+{% extends "Administrador/base.html" %}
+{% load static %}
+
+{% block title %}
+    Política de Privacidad - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+
+<div class="container" style="max-width: 900px; margin: 3rem auto; padding: 2rem; background: #f8fafc; border-radius: 12px;">
+
+    <div style="background: #ffffff; border-radius: 12px; padding: 2rem; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+
+        <h1 style="font-size: 1.8rem; font-weight: 800; color: #0f172a; margin-bottom: 0.75rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 1rem;">
+            Política de Privacidad y Protección de Datos Personales
+        </h1>
+
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 2rem;">
+            Conforme a la Ley N.º 25.326 (Protección de Datos Personales)
+            de la República Argentina.
+            Última actualización: Octubre de 2026.
+        </p>
+
+        <section style="margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.15rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">
+                1. Recopilación de Datos y Consentimiento Informado
+            </h2>
+
+            <p style="font-size: 0.95rem; line-height: 1.7; color: #334155;">
+                En Biblioteca SaBré, los datos personales proporcionados
+                mediante el registro de usuarios, los perfiles personales
+                y los formularios de contacto pueden incluir información
+                identificatoria y de contacto necesaria para utilizar
+                los servicios de la biblioteca.
+            </p>
+
+            <p style="font-size: 0.95rem; line-height: 1.7; color: #334155;">
+                La recopilación y el tratamiento de estos datos deberán
+                respetar el consentimiento libre, expreso e informado,
+                de acuerdo con los artículos 5 y 6 de la Ley N.º 25.326.
+            </p>
+        </section>
+
+        <section style="margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.15rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">
+                2. Finalidad del Tratamiento
+            </h2>
+
+            <p style="font-size: 0.95rem; line-height: 1.7; color: #334155;">
+                La información personal se utiliza para gestionar las
+                cuentas de usuario, administrar los préstamos y las
+                devoluciones de libros, facilitar el acceso al catálogo,
+                mantener la comunicación con las personas lectoras y
+                brindar los servicios culturales y bibliotecarios
+                ofrecidos por Biblioteca SaBré.
+            </p>
+        </section>
+
+        <section style="margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.15rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">
+                3. Derechos del Titular (Derechos ARCO)
+            </h2>
+
+            <p style="font-size: 0.95rem; line-height: 1.7; color: #334155;">
+                Las personas titulares de los datos personales tienen
+                derecho a solicitar el acceso a su información en forma
+                gratuita con la periodicidad establecida por el artículo
+                14 de la Ley N.º 25.326, salvo que se acredite un interés
+                legítimo que justifique una excepción.
+            </p>
+
+            <p style="font-size: 0.95rem; line-height: 1.7; color: #334155;">
+                Asimismo, podrán solicitar la actualización, rectificación
+                o supresión de sus datos personales conforme al artículo
+                16 de la misma ley, mediante los canales de contacto
+                habilitados por Biblioteca SaBré.
+            </p>
+        </section>
+
+        <section style="margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.15rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">
+                4. Órgano de Control
+            </h2>
+
+            <p style="font-size: 0.95rem; line-height: 1.7; color: #334155;">
+                La Agencia de Acceso a la Información Pública es el
+                órgano de control de la Ley N.º 25.326 y tiene entre
+                sus atribuciones atender las denuncias y reclamos
+                relacionados con el incumplimiento de las normas
+                sobre protección de datos personales.
+            </p>
+        </section>
+
+        <div style="border-top: 1px solid #e2e8f0; margin-top: 2rem; padding-top: 1.5rem; display: flex; justify-content: flex-end;">
+
+            <a href="{% url 'index' %}"
+               style="background: #0f172a; color: #ffffff; padding: 0.7rem 1.2rem; border-radius: 6px; font-weight: 700; text-decoration: none; display: inline-block;">
+                Volver al inicio
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock codigoDinamico %}

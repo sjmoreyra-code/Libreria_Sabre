@@ -1,0 +1,28 @@
+{% extends "Administrador/base.html" %}
+{% load static %}
+
+{% block title %}
+    Opciones de Accesibilidad - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+<main class="main-content">
+    <section class="products-section">
+        <div class="products-header">
+            <h1 class="section-title uppercase tracking-wider">
+                Declaración y Herramientas de Accesibilidad
+            </h1>
+        </div>
+        <div class="table-container p-6">
+            <p class="mb-4 font-body-lg">
+                Este portal web cumple con las pautas de accesibilidad para el contenido web (WCAG 2.1 AA) para asegurar una navegación cómoda.
+            </p>
+            <div class="bg-black/30 p-4 rounded-lg space-y-3 font-body-lg">
+                <p>✔️ <strong>Alto Contraste:</strong> Diseño optimizado con fondos oscuros y texto de alta visibilidad.</p>
+                <p>✔️ <strong>Navegación por Teclado:</strong> Estructura completamente accesible mediante la tecla <kbd class="px-2 py-1 bg-gray-800 rounded">Tab</kbd>.</p>
+                <p>✔️ <strong>Etiquetas Alt y ARIA:</strong> Todas las imágenes e iconos incluyen descripciones dinámicas para lectores de voz.</p>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock codigoDinamico %}

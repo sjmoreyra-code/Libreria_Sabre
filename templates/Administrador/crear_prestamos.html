@@ -1,0 +1,55 @@
+{% extends "Administrador/base.html" %}
+{% load static %}
+
+{% block title %}
+    Crear Préstamo - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+<main class="main-content flex justify-center items-center py-10">
+    <section class="contenedor-tarjeta-admin tarjeta-centrada">
+        
+        <h1 class="titulo-seccion-gold text-center">
+            CREAR NUEVO PRÉSTAMO
+        </h1>
+
+        {% if messages %}
+            <div class="mensajes-sistema">
+                {% for message in messages %}
+                    <div class="mensaje-alerta {% if message.tags == 'error' %}alerta-error{% else %}alerta-exito{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'crear_prestamos' %}" class="formulario-prestamos">
+            {% csrf_token %}
+
+            <div class="form-input-box">
+                {% for field in form %}
+                    <div class="campo-grupo">
+                        <label for="{{ field.id_for_label }}" class="label-campo">
+                            {{ field.label }}:
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <span class="error-campo">{{ field.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="acciones-formulario">
+                <button type="submit" class="btn-guardar-gold">
+                    + REGISTRAR PRÉSTAMO
+                </button>
+                <a href="{% url 'prestamos' %}" class="btn-volver-gold">
+                    CANCELAR
+                </a>
+            </div>
+        </form>
+
+    </section>
+</main>
+{% endblock codigoDinamico %}

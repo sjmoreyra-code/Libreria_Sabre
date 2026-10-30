@@ -1,0 +1,297 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+  <title>Búsqueda y Detalle de Libro | BIBLIOTECA SaBré</title>
+
+  <!-- Fuentes e Iconos -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- CSS Compartido -->
+  <link rel="stylesheet" href="{% static 'Usuario/style.css' %}">
+</head>
+<body class="bg-surface font-body-base text-on-surface antialiased min-h-screen flex flex-col">
+
+  <!-- Encabezado Superior -->
+  <header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]">
+    <div class="h-16 px-gutter-mobile flex items-center justify-between">
+      <div class="flex items-center gap-space-sm">
+        <button aria-label="Menú Principal" class="w-12 h-12 flex items-center justify-center text-primary hover:text-primary-container transition-colors focus:outline-none focus:bg-surface-container">
+          <span class="material-symbols-outlined text-[26px]">menu</span>
+        </button>
+        <div class="flex flex-col">
+          <span class="font-headline-lg-mobile text-headline-lg-mobile text-primary-container uppercase tracking-tight">BIBLIOTECA SaBré</span>
+          <span class="font-label-uppercase text-label-uppercase text-on-surface-variant uppercase tracking-wider">Búsqueda y Detalle</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-xs">
+        <button aria-label="Opciones de Accesibilidad" class="h-11 px-space-sm flex items-center gap-1 bg-surface-container hover:bg-surface-container-high text-primary-container font-button-text text-button-text uppercase transition-colors rounded-lg">
+          <span class="material-symbols-outlined text-[20px]">accessibility_new</span>
+          <span class="hidden xs:inline text-xs">Acceso</span>
+        </button>
+        <button aria-label="Alternar modo claro u oscuro" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high text-primary-container flex items-center justify-center shrink-0 transition-colors focus:outline-none" onclick="document.documentElement.classList.toggle('dark')" type="button">
+          <span class="material-symbols-outlined text-[18px]">dark_mode</span>
+        </button>
+        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido Principal -->
+  <main class="flex-1 w-full pt-20 pb-28 px-gutter-mobile max-w-4xl mx-auto flex flex-col gap-space-md">
+
+    <!-- SECCIÓN DE BÚSQUEDA -->
+    <section aria-labelledby="heading-search" class="flex flex-col gap-space-sm">
+      <div class="bg-surface-container-low p-space-sm rounded-lg flex flex-col gap-space-xs shadow-md">
+        <label class="font-label-uppercase text-label-uppercase text-on-surface-variant flex items-center gap-1.5 uppercase" for="detalle-search-input" id="heading-search">
+          <span class="material-symbols-outlined text-[18px] text-primary-container">search</span>
+          Explorar Fondo Bibliográfico
+        </label>
+        
+        <div class="flex flex-col sm:flex-row gap-space-xs">
+          <div class="relative flex-1 flex items-center">
+            <input class="w-full h-12 bg-surface-container-highest text-on-surface font-body-base text-body-base px-space-sm pr-10 rounded-lg placeholder-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary-container transition-all" id="detalle-search-input" placeholder="Buscar por título, autor o género..." type="text">
+            <button aria-label="Limpiar búsqueda" class="absolute right-2 w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary-container transition-colors hidden" id="detalle-clear-btn" type="button">
+              <span class="material-symbols-outlined text-[20px]">cancel</span>
+            </button>
+          </div>
+          <button class="h-12 px-space-md bg-primary-container hover:bg-primary text-on-primary font-button-text text-button-text uppercase rounded-lg flex items-center justify-center gap-space-xs transition-colors shrink-0" id="detalle-search-btn" type="button">
+            <span class="material-symbols-outlined text-[20px]">search</span>
+            <span>Buscar</span>
+          </button>
+        </div>
+
+        <!-- Filtros Rápidos de Categoría/Formato -->
+        <div aria-label="Filtros de búsqueda" class="flex items-center gap-space-xs overflow-x-auto pt-space-xs pb-1" id="detalle-filter-chips">
+          <button class="detalle-filter-btn active-filter h-9 px-space-sm rounded-lg bg-primary-container text-on-primary font-button-text text-body-sm uppercase flex items-center gap-1 shrink-0 transition-colors" data-filter="todos" type="button">
+            <span class="material-symbols-outlined text-[16px]">done_all</span>
+            Todos
+          </button>
+          <button class="detalle-filter-btn h-9 px-space-sm rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-button-text text-body-sm uppercase flex items-center gap-1 shrink-0 transition-colors" data-filter="Narrativa" type="button">
+            <span class="material-symbols-outlined text-[16px]">menu_book</span>
+            Narrativa
+          </button>
+          <button class="detalle-filter-btn h-9 px-space-sm rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-button-text text-body-sm uppercase flex items-center gap-1 shrink-0 transition-colors" data-filter="Economía" type="button">
+            <span class="material-symbols-outlined text-[16px]">analytics</span>
+            Economía
+          </button>
+          <button class="detalle-filter-btn h-9 px-space-sm rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-button-text text-body-sm uppercase flex items-center gap-1 shrink-0 transition-colors" data-filter="Poesía" type="button">
+            <span class="material-symbols-outlined text-[16px]">history_edu</span>
+            Poesía
+          </button>
+        </div>
+      </div>
+
+      <!-- Resumen de Resultados -->
+      <div class="flex items-center justify-between px-1">
+        <span class="font-label-uppercase text-label-uppercase text-primary-container tracking-wider uppercase" id="detalle-results-count">
+          4 Obras Disponibles
+        </span>
+        <button class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors underline" id="detalle-reset-list-btn" type="button">
+          Restablecer lista
+        </button>
+      </div>
+
+      <!-- Contenedor de Lista de Resultados -->
+      <div class="flex flex-col gap-space-xs" id="detalle-results-container">
+        <!-- Generado dinámicamente vía JS -->
+      </div>
+
+      <!-- Estado Vacío (Oculto por defecto) -->
+      <div class="bg-surface-container-low p-space-md rounded-lg flex flex-col items-center justify-center text-center gap-space-xs hidden" id="detalle-empty-state">
+        <span class="material-symbols-outlined text-[40px] text-on-surface-variant">search_off</span>
+        <p class="font-title-card text-body-base text-primary">No se encontraron coincidencia</p>
+        <p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs">
+          Intenta buscar por otro título, autor o género como "Quijote", "Economía" o "Storni".
+        </p>
+      </div>
+    </section>
+
+    <!-- SECCIÓN DE DETALLE DEL LIBRO SELECCIONADO -->
+    <section aria-labelledby="heading-libro" class="flex flex-col gap-space-md pt-space-xs" id="detalle-libro-section">
+      <div class="flex items-center justify-between pb-1 border-b border-outline-variant/30">
+        <div class="flex items-center gap-space-xs">
+          <span class="w-2.5 h-2.5 rounded-full bg-primary-container animate-pulse"></span>
+          <span class="font-label-uppercase text-label-uppercase text-primary-container tracking-wider uppercase">
+            Ficha Catalográfica Completa
+          </span>
+        </div>
+        <span class="font-body-sm text-body-sm text-on-surface-variant" id="detalle-isbn-top">ISBN: 978-987-00-1234-5</span>
+      </div>
+
+      <!-- Tarjeta Principal de Detalle -->
+      <div class="bg-surface-container p-space-md rounded-xl flex flex-col shadow-lg gap-space-sm">
+        
+        <!-- Contenedor Portada con Badges -->
+        <div class="relative w-full h-80 rounded-lg overflow-hidden bg-surface-container-lowest flex items-center justify-center border border-outline-variant/20">
+          <img alt="Portada del libro seleccionado" class="w-full h-full object-cover" id="detalle-portada" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2vrCoHFNUe24ot0lX0myI75-doI_2fc2oYm4rOIwjkbkvZ0MCOgaLj_WpyXwlxtZ8OQLNll-mvrOoQQs3od7M-iaLHp0kDqcTrj_dn3Z0z6ZJ3ZudYCaQYMsvH6WH4N98jL-x0KYvmynwkvR-hwLM8bxzOnEG-TyfQOxpHboVRi2YX3aVkNzvnsaTWUhy0fU9N4Z7bdToKWpn4d6GZkxLoCBiLrfvvc1d9W4PVOI_-vK5BGy1PYwYOg">
+          
+          <div class="absolute top-3 left-3 flex flex-wrap gap-1.5" id="detalle-formatos-badges">
+            <span class="px-2.5 py-1 rounded-lg bg-surface-container-lowest/90 text-primary-container font-button-text text-body-sm uppercase tracking-wide shadow">
+              Físico (Papel)
+            </span>
+            <span class="px-2.5 py-1 rounded-lg bg-primary-container text-on-primary font-button-text text-body-sm uppercase tracking-wide shadow">
+              Braille
+            </span>
+          </div>
+
+          <div class="absolute bottom-3 right-3">
+            <span class="px-2.5 py-1 rounded-lg bg-surface-container-lowest/90 text-on-surface font-label-uppercase text-[11px] flex items-center gap-1 uppercase shadow" id="detalle-audio-badge">
+              <span class="material-symbols-outlined text-[14px] text-primary-container">headset</span>
+              Disponible en Audio
+            </span>
+          </div>
+        </div>
+
+        <!-- Encabezado de la Obra -->
+        <div class="flex flex-col gap-space-xs">
+          <h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-black uppercase tracking-tight" id="detalle-titulo">
+            Don Quijote de la Mancha
+          </h1>
+          <p class="font-body-lg text-body-lg text-primary-container font-bold" id="detalle-autor">
+            Miguel de Cervantes Saavedra
+          </p>
+
+          <!-- Grilla de Metadatos -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-space-xs pt-space-xs">
+            <div class="bg-surface-container-high p-space-xs rounded-lg flex flex-col">
+              <span class="font-label-uppercase text-[11px] text-on-surface-variant uppercase">Año</span>
+              <span class="font-title-card text-body-base text-primary" id="detalle-anio">1605</span>
+            </div>
+            <div class="bg-surface-container-high p-space-xs rounded-lg flex flex-col">
+              <span class="font-label-uppercase text-[11px] text-on-surface-variant uppercase">Género</span>
+              <span class="font-title-card text-body-base text-primary truncate" id="detalle-genero">Novela Clásica</span>
+            </div>
+            <div class="bg-surface-container-high p-space-xs rounded-lg flex flex-col">
+              <span class="font-label-uppercase text-[11px] text-on-surface-variant uppercase">Editorial</span>
+              <span class="font-title-card text-body-base text-primary truncate" id="detalle-editorial">Fondo SaBré</span>
+            </div>
+            <div class="bg-surface-container-high p-space-xs rounded-lg flex flex-col">
+              <span class="font-label-uppercase text-[11px] text-on-surface-variant uppercase">Signatura</span>
+              <span class="font-title-card text-body-base text-primary truncate" id="detalle-signatura">LIT-QUI-01</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado de Disponibilidad -->
+        <div class="bg-surface-container-lowest p-space-sm rounded-lg flex items-center justify-between border-l-4 border-primary-container">
+          <div class="flex items-center gap-space-sm">
+            <div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[24px]">verified</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="font-label-uppercase text-label-uppercase text-primary-container uppercase">Estado del Ejemplar</span>
+              <span class="font-title-card text-body-base text-on-surface" id="detalle-disponibilidad-texto">Disponible en sala y préstamo</span>
+            </div>
+          </div>
+          <div class="px-2.5 py-1 rounded-lg bg-surface-container-high text-primary-container font-button-text text-body-sm text-center" id="detalle-ejemplares-count">
+            2 Libres
+          </div>
+        </div>
+
+        <!-- Bloque de Accesibilidad -->
+        <div class="bg-surface-container-high p-space-sm rounded-lg flex flex-col gap-space-xs">
+          <div class="flex items-center gap-space-xs text-primary-container">
+            <span class="material-symbols-outlined text-[20px]">accessible_forward</span>
+            <span class="font-label-uppercase text-label-uppercase uppercase">Formatos Accesibles e Inclusivos</span>
+          </div>
+          <p class="font-body-base text-body-base text-on-surface" id="detalle-accesibilidad-desc">
+            Este volumen cuenta con transcripción táctil braille, archivo DAISY navegable y audiolibro adaptado para usuarios de la Biblioteca SaBré.
+          </p>
+        </div>
+
+        <!-- Sinopsis -->
+        <div class="flex flex-col gap-space-xs">
+          <span class="font-label-uppercase text-label-uppercase text-on-surface-variant uppercase tracking-wider">
+            Sinopsis / Resumen
+          </span>
+          <p class="font-body-base text-body-base text-on-surface leading-relaxed" id="detalle-sinopsis">
+            Las célebres aventuras del hidalgo Alonso Quijano, quien pierde el juicio a causa de las novelas de caballería y decide recorrer España en busca de justicia y honra.
+          </p>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="flex flex-col gap-space-xs pt-space-xs">
+          <button class="w-full h-14 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-button-text text-button-text uppercase flex items-center justify-center gap-space-xs shadow transition-colors" id="detalle-btn-solicitar" type="button">
+            <span class="material-symbols-outlined text-[22px]">book_online</span>
+            <span>Solicitar Préstamo</span>
+          </button>
+          
+          <button class="w-full h-12 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-primary font-button-text text-button-text uppercase flex items-center justify-center gap-space-xs transition-colors" id="detalle-btn-reservar" type="button">
+            <span class="material-symbols-outlined text-[20px] text-primary-container">bookmark_add</span>
+            <span>Reservar Ejemplar</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal de Confirmación Prototipo (Oculto por defecto) -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-surface-container-lowest/80 p-space-sm hidden" id="detalle-modal-confirmacion">
+      <div class="w-full max-w-md bg-surface-container-high rounded-xl p-space-md shadow-2xl flex flex-col gap-space-sm border border-primary-container/30">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-space-xs text-primary-container">
+            <span class="material-symbols-outlined text-[24px]" id="detalle-modal-icon">check_circle</span>
+            <h3 class="font-title-card text-title-card text-primary uppercase" id="detalle-modal-titulo">Acción Realizada</h3>
+          </div>
+          <button aria-label="Cerrar modal" class="w-8 h-8 rounded-lg bg-surface-container text-on-surface hover:text-primary-container flex items-center justify-center" id="detalle-modal-close" type="button">
+            <span class="material-symbols-outlined text-[20px]">close</span>
+          </button>
+        </div>
+        <p class="font-body-base text-body-base text-on-surface" id="detalle-modal-mensaje">
+          Procesando solicitud...
+        </p>
+        <button class="h-12 w-full bg-primary-container hover:bg-primary text-on-primary font-button-text text-button-text uppercase rounded-lg transition-colors mt-2" id="detalle-modal-accept" type="button">
+          Entendido
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Navegación Inferior Compartida -->
+  <nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.5)]">
+    <div class="flex justify-around items-center h-16 px-space-xs max-w-4xl mx-auto">
+      <a class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary transition-colors" href="#">
+        <span class="material-symbols-outlined text-[24px]">home</span>
+        <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Inicio</span>
+      </a>
+      <a class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-primary-container font-bold transition-colors" href="#">
+        <span class="material-symbols-outlined text-[24px]">menu_book</span>
+        <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Catálogo</span>
+      </a>
+      <a class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary relative transition-colors" href="#">
+        <div class="relative flex items-center justify-center">
+          <span class="material-symbols-outlined text-[24px]">schedule</span>
+          <span class="absolute -top-1 -right-2 w-2.5 h-2.5 rounded-full bg-primary-container ring-2 ring-surface-container-lowest"></span>
+        </div>
+        <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Préstamos</span>
+      </a>
+      <a href="#" class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary">
+        <span class="material-symbols-outlined text-[24px]">history</span>
+        <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Historial</span>
+      </a>
+      <a class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary transition-colors" href="#">
+        <span class="material-symbols-outlined text-[24px]">groups</span>
+        <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Comunidad</span>
+      </a>
+      <a class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary transition-colors" href="#">
+        <span class="material-symbols-outlined text-[24px]">account_circle</span>
+        <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Perfil</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- JS Compartido -->
+  <script src="{% static 'Usuario/main.js' %}"></script>
+</body>
+</html>

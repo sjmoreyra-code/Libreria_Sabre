@@ -1,0 +1,53 @@
+
+{% extends "Administrador/index.html" %}
+{% load static %}
+
+{% block title %}
+    Editar Usuario - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+
+<main class="main-content">
+    <section class="products-section">
+
+        <div class="products-header">
+            <h1 class="section-title uppercase tracking-wider">
+                EDITAR USUARIO
+            </h1>
+        </div>
+
+        <div class="form-container">
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="{{ form.nombre_usuario.id_for_label }}">
+                        Nombre de Usuario:
+                    </label>
+                    {{ form.nombre_usuario }}
+                    {{ form.nombre_usuario.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.email_usuario.id_for_label }}">
+                        Correo Electrónico:
+                    </label>
+                    {{ form.email_usuario }}
+                    {{ form.email_usuario.errors }}
+                </div>
+
+                <button type="submit" class="btn-nuevo-libro">
+                    Guardar Cambios
+                </button>
+
+                <a href="{% url 'usuarios' %}" class="btn-buscar-usuarios">
+                    Cancelar
+                </a>
+            </form>
+        </div>
+
+    </section>
+</main>
+
+{% endblock codigoDinamico %}

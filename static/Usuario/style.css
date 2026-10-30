@@ -1,0 +1,311 @@
+@layer base {
+  html, body {
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    overscroll-behavior: none;
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  main > :first-child {
+    margin-top: 0 !important;
+  }
+  main > :last-child {
+    margin-bottom: 0 !important;
+  }
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  min-height: max(884px, 100dvh);
+}
+
+
+/* ==========================================================================
+   ESTILOS ESPECÍFICOS PARA LA PANTALLA 5: BÚSQUEDA Y DETALLE DE LIBRO
+   ========================================================================== */
+
+/* Tarjeta de ítem de resultado seleccionado en la lista */
+.detalle-item-card {
+  transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.detalle-item-card:hover {
+  border-color: rgba(217, 239, 0, 0.4);
+}
+
+.detalle-item-card.selected-book {
+  border-color: #d9ef00 !important;
+  background-color: #292a2c !important;
+}
+
+/* Transición suave para cambiar la portada del detalle */
+#detalle-portada {
+  transition: opacity 0.25s ease-in-out;
+}
+
+/* Estado activo de botones de filtro */
+.detalle-filter-btn.active-filter {
+  background-color: #d9ef00 !important;
+  color: #2e3300 !important;
+}
+
+
+/* ==========================================================================
+   PANTALLA 6: COMUNIDAD, VALORACIONES Y SUGERENCIAS
+   ========================================================================== */
+
+/* Animación de estrellas para calificación interactiva */
+.star-btn {
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.star-btn:active {
+  transform: scale(1.25);
+}
+
+.star-btn.active-star {
+  color: #d9ef00 !important; /* verde-lima / primary-container */
+}
+
+/* Transición suave para toasts en la pantalla de Comunidad */
+#community-toast {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+
+/* ==========================================================================
+   PANTALLA 7: HISTORIAL Y ALERTAS DE PRÉSTAMO
+   ========================================================================== */
+
+/* Transición suave para filtrado de registros */
+[data-pantalla="historial"] article {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Ocultar elementos filtrados sin afectar el flujo estructural */
+.historial-registro-oculto {
+  display: none !important;
+}
+
+/* Estado activo para botones de filtro */
+.historial-filtro-btn-activo {
+  background-color: #d9ef00 !important;
+  color: #2e3300 !important;
+}
+
+/* Sistema de Toast exclusivo de Historial */
+.historial-toast-container {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background-color: #1f2022;
+  color: #e3e2e5;
+  border: 1px solid #343537;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  max-width: calc(100vw - 32px);
+  width: max-content;
+}
+
+.historial-toast-container.historial-toast-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.historial-toast-icono {
+  color: #d9ef00;
+  font-size: 20px;
+}
+
+.historial-toast-texto {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Menú lateral */
+.boton-menu {
+    cursor: pointer;
+}
+
+.fondo-menu[hidden] {
+    display: none !important;
+}
+
+.fondo-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background: rgba(0, 0, 0, 0.65);
+}
+
+.menu-lateral {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: min(300px, 85vw);
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    background: #151515;
+    color: #ffffff;
+    border-right: 1px solid #d8f000;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.25s ease, visibility 0.25s ease;
+}
+
+.menu-lateral.menu-abierto {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+.menu-lateral-cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #383838;
+}
+
+.menu-lateral-cabecera strong {
+    color: #d8f000;
+    font-size: 18px;
+}
+
+.menu-lateral-cabecera button {
+    padding: 8px 12px;
+    color: #ffffff;
+    background: transparent;
+    border: 1px solid #d8f000;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.menu-lateral nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.menu-lateral nav a {
+    display: block;
+    padding: 13px;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.menu-lateral nav a:hover,
+.menu-lateral nav a:focus-visible {
+    color: #151515;
+    background: #d8f000;
+}
+
+body.menu-bloqueo-scroll {
+    overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .menu-lateral {
+        transition: none;
+    }
+}
+
+/* Resaltado de opciones del menú lateral */
+.menu-lateral-enlaces a,
+.menu-lateral nav a {
+    display: block;
+    padding: 13px 10px;
+    border-radius: 6px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.menu-lateral-enlaces a:hover,
+.menu-lateral-enlaces a:focus-visible,
+.menu-lateral-enlaces a.activo,
+.menu-lateral nav a:hover,
+.menu-lateral nav a:focus-visible,
+.menu-lateral nav a.activo {
+    background-color: #d8f000;
+    color: #151515;
+}
+
+.menu-lateral-enlaces a:focus-visible,
+.menu-lateral nav a:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+}
+
+/* Navegación inferior compartida */
+.nav-inferior-enlace {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    min-width: 56px;
+    min-height: 48px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    color: #c7c9ab;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-inferior-enlace:hover,
+.nav-inferior-enlace:focus-visible,
+.nav-inferior-enlace.activo {
+    color: #d9ef00;
+}
+
+.nav-inferior-enlace:hover,
+.nav-inferior-enlace:focus-visible {
+    background-color: rgba(217, 239, 0, 0.12);
+}
+
+.nav-inferior-enlace.activo {
+    font-weight: 800;
+}
+
+/* Menú lateral: mantener el diseño original */
+.menu-lateral-enlaces a {
+    display: block;
+    padding: 13px;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.menu-lateral-enlaces a:hover,
+.menu-lateral-enlaces a:focus-visible,
+.menu-lateral-enlaces a[aria-current="page"] {
+    color: #151515;
+    background: #d9ef00;
+}
+

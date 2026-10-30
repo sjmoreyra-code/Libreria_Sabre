@@ -1,0 +1,157 @@
+{% extends 'Administrador/base.html' %}
+
+{% block codigoDinamico %}
+<main class="main-content">
+    <!-- Hero Section -->
+    <div class="ayudante-wrapper">
+        <button class="btn-ayudante" type="button">AYUDANTE de Biblioteca</button>
+    </div>
+
+    <section class="hero-section">
+        <div class="hero-text-container">
+            <h1 class="hero-title">ACCESO TOTAL A LA CULTURA</h1>
+            <p class="hero-description">
+                Una biblioteca diseñada sin barreras. Descubre nuestro vasto catálogo de recursos accesibles, desde audiolibros hasta textos en braille, en un entorno pensado para todos.
+            </p>
+            <a href="{% url 'libros' %}" class="btn-hero text-center inline-block">
+                Explorar Catálogo
+            </a>
+        </div>
+        <div class="hero-image-container">
+            <img alt="Ilustración abstracta de lectura accesible" class="hero-image" data-alt="A high contrast, minimalist brutalist illustration representing an open book transforming into a sound wave, rendered in pure bright yellow against a deep black background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3iHyjUQA0SDdR4mn1C1mrFXV2A23mLMg5mrK7A5sQeIu6by-gpaTbNsgIwAHAuW48Nyn0n90jiyLjwd6Uv-LuFd-BRP0d-sN9lFzKsdKs90rG7pZavfoC4Ej1YwKiyrSiDT11KGTnlOrDeYTZv_RFb_HfkJ4VsErVDsCSm_jLbbQ1Xz43IuJNBHoqxkS-Pt_e-ttwa4RQasKYfPa-watvlvq-4dX96XFfgTdHCKF4XcHUJuk_7QfQ">
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="services-section">
+        <h2 class="section-title">Nuestros Servicios</h2>
+        <div class="services-grid">
+            <a class="service-card group" href="{% url 'prestamos' %}">
+                <div class="service-icon-box">
+                    <span aria-hidden="true" class="material-symbols-outlined icon-fill">menu_book</span>
+                </div>
+                <h3 class="service-card-title">Préstamos</h3>
+                <p class="service-card-text">Libros en macrocaracteres y formatos adaptados para baja visión.</p>
+            </a>
+            <a class="service-card group" href="{% url 'audiolibros' %}">
+                <div class="service-icon-box">
+                    <span aria-hidden="true" class="material-symbols-outlined icon-fill">headphones</span>
+                </div>
+                <h3 class="service-card-title">Audio</h3>
+                <p class="service-card-text">Extensa colección de audiolibros con reproductores accesibles.</p>
+            </a>
+            <a class="service-card group" href="{% url 'braille' %}">
+                <div class="service-icon-box">
+                    <span aria-hidden="true" class="material-symbols-outlined icon-fill">touch_app</span>
+                </div>
+                <h3 class="service-card-title">Braille</h3>
+                <p class="service-card-text">Literatura, revistas y documentos impresos en sistema braille.</p>
+            </a>
+            <a class="service-card group" href="{% url 'talleres' %}">
+                <div class="service-icon-box">
+                    <span aria-hidden="true" class="material-symbols-outlined icon-fill">groups</span>
+                </div>
+                <h3 class="service-card-title">Talleres</h3>
+                <p class="service-card-text">Actividades formativas y culturales diseñadas inclusivamente.</p>
+            </a>
+            <a class="service-card group" href="{% url 'informatica' %}">
+                <div class="service-icon-box">
+                    <span aria-hidden="true" class="material-symbols-outlined icon-fill">computer</span>
+                </div>
+                <h3 class="service-card-title">Informática</h3>
+                <p class="service-card-text">Puestos con lectores de pantalla y magnificadores instalados.</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Products Section & Table -->
+    <section aria-labelledby="libros-heading" class="products-section">
+        <div class="products-header">
+            <h2 class="section-title uppercase tracking-wider" id="libros-heading">
+                Nuestros Libros
+            </h2>
+            <div class="products-actions">
+                <a href="{% url 'crear_libros' %}" class="btn-nuevo-libro">
+                    + Nuevo Libro
+                </a>
+                <a href="{% url 'buscar_libros' %}" class="btn-buscar-libros">
+                    <span aria-hidden="true" class="material-symbols-outlined">search</span>
+                    Buscar
+                </a>
+            </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="table-container">
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th class="th-id" scope="col">ID</th>
+                        <th scope="col">Título del Libro</th>
+                        <th scope="col">Autor</th>
+                        <th scope="col">Disponibilidad</th>
+                        <th class="th-acciones" scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in libros %}
+                    <tr>
+                        <td class="td-id">{{ forloop.counter }}</td>
+                        <td class="td-nombre">{{ p.titulo_libro }}</td>
+                        <td>{{ p.autor }} ({{ p.anio }})</td>
+                        <td>
+                            {% if p.disponibilidad %}
+                                Disponible
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td class="td-acciones">
+                            <div class="action-buttons-group">
+                                <a href="{% url 'editar_libro' p.id %}" class="btn-editar">Editar</a>
+                                <a href="{% url 'eliminar_libro' p.id %}" class="btn-eliminar">Eliminar</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-3">No hay libros disponibles.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Nuestra Ubicación -->
+    <section id="ubicacion" aria-labelledby="ubicacion-heading"
+             style="padding: 40px 20px;">
+
+        <h2 id="ubicacion-heading"
+            class="section-title">
+            Nuestra Ubicación
+        </h2>
+
+        <p style="text-align: center; margin-bottom: 20px;">
+            Blas Parera 407, Departamento 4, La Matanza, Buenos Aires, Argentina.
+        </p>
+
+        <div style="width: 100%; max-width: 1000px; margin: 0 auto;
+                    overflow: hidden; border-radius: 8px;">
+
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3280.619578601475!2d-58.67104762499544!3d-34.689549572923625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcc0c2ab321d47%3A0x7ee202b91ee9414c!2sBlas%20Parera%20407%2C%20B1716HHI%20La%20Matanza%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses-419!2sar!4v1793348788955!5m2!1ses-419!2sar"
+                width="600"
+                height="450"
+                style="border:0; width:100%; height:450px;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+                title="Mapa de ubicación de Biblioteca SaBré">
+            </iframe>
+
+        </div>
+    </section>
+
+</main>
+{% endblock codigoDinamico %}

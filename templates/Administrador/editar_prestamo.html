@@ -1,0 +1,70 @@
+{% extends "Administrador/index.html" %}
+{% load static %}
+
+{% block title %}
+    Editar Préstamo - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+
+<main class="main-content">
+
+    <section class="products-section formulario-centrado">
+
+        <div class="products-header">
+            <h1 class="section-title uppercase tracking-wider">
+                Editar Préstamo
+            </h1>
+        </div>
+
+        
+{% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+        {% if "ERROR DE FECHAS" in error %}
+            <div class="alerta-error-fechas" id="alerta-error-fechas">
+                <strong>ERROR DE FECHAS</strong>
+                <p>Revisá las fechas ingresadas.</p>
+            </div>
+        {% else %}
+            <div class="alerta-error-fechas" id="alerta-error-general">
+                <strong>ERROR EN EL FORMULARIO</strong>
+                <p>{{ error }}</p>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+
+        <form method="POST" class="formulario-individual">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <div class="formulario-botones">
+                <button type="submit" class="btn-nuevo-libro">
+                    Guardar Cambios
+                </button>
+
+                <a href="{% url 'prestamos' %}" class="btn-cancelar">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+
+    </section>
+
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const alerta = document.getElementById('alerta-error-fechas');
+
+    if (alerta) {
+        setTimeout(function () {
+            alerta.remove();
+        }, 6000);
+    }
+});
+</script>
+
+{% endblock codigoDinamico %}

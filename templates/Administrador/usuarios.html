@@ -1,0 +1,108 @@
+{% extends "Administrador/index.html" %}
+{% load static %}
+
+{% block title %}
+    Usuarios - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+
+<main class="main-content">
+
+    <section class="products-section">
+
+        <div class="products-header">
+
+            <h1 class="section-title uppercase tracking-wider">
+                Nuestros Usuarios
+            </h1>
+
+            <div class="products-actions">
+
+                
+                <a href="{% url 'crear_usuarios' %}" class="btn-nuevo-libro">
+                    + Nuevo Usuario
+                </a>
+
+
+                <a href="{% url 'buscar_usuarios' %}" class="btn-buscar-usuarios">
+                    <span class="material-symbols-outlined">
+                        search
+                    </span>
+                    Buscar
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="table-container">
+
+            <table class="products-table">
+
+                <thead>
+                    <tr>
+                        <th class="th-id">ID</th>
+                        <th>Nombre Usuario</th>
+                        <th>Email</th>
+                        <th class="th-acciones">Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for u in usuario %}
+
+                    <tr>
+
+                        <td class="td-id">
+                            {{ forloop.counter }}
+                        </td>
+
+                        <td class="td-nombre">
+                            {{ u.nombre_usuario }}
+                        </td>
+
+                        <td>
+                            {{ u.email_usuario }}
+                        </td>
+
+                        <td class="td-acciones">
+
+                            <div class="action-buttons-group">
+
+                                <a href="{% url 'editar_usuario' u.id %}" class="btn-editar">
+                                    Editar
+                                </a>
+
+                                <a href="{% url 'eliminar_usuario' u.id %}" class="btn-eliminar">
+                                    Eliminar
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="4">
+                            No hay usuarios disponibles.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+{% endblock codigoDinamico %}

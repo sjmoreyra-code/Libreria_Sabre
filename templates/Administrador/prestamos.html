@@ -1,0 +1,76 @@
+{% extends "Administrador/base.html" %}
+{% load static %}
+
+{% block title %}
+    Gestión de Préstamos - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+<main class="main-content">
+    <section class="products-section">
+        <div class="products-header">
+            <h1 class="section-title uppercase tracking-wider">
+                Préstamos de Libros
+            </h1>
+            {% if user.is_staff %}
+                <div class="products-actions">
+                    <a href="{% url 'crear_prestamos' %}" class="btn-nuevo-libro">
+                        + Nuevo Préstamo
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="table-container">
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Libro</th>
+                        <th scope="col">Fecha Préstamo</th>
+                        <th scope="col">Devolución Prevista</th>
+                        <th scope="col">Devolución Real</th>
+                        {% if user.is_staff %}
+                            <th scope="col">Acciones</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in prestamos %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ p.usuario.nombre }} ({{ p.usuario.alias }})</td>
+                        <td class="td-nombre">{{ p.libro.titulo_libro }}</td>
+                        <td>{{ p.fecha_prestamo|date:"d/m/Y" }}</td>
+                        <td>{{ p.fecha_devolucion_prevista|date:"d/m/Y" }}</td>
+                        <td>
+                            {% if p.fecha_devolucion_real %}
+                                <span class="text-success">{{ p.fecha_devolucion_real|date:"d/m/Y" }}</span>
+                            {% else %}
+                                <span class="text-warning">Pendiente</span>
+                            {% endif %}
+                        </td>
+                        {% if user.is_staff %}
+                            <td class="td-acciones">
+                                <div class="action-buttons-group">
+                                    {% if not p.fecha_devolucion_real %}
+                                        <a href="{% url 'registrar_devolucion' p.id %}" class="btn-editar" style="background-color: #28a745;">Devolver</a>
+                                    {% endif %}
+                                    <a href="{% url 'editar_prestamo' p.id %}" class="btn-editar">Editar</a>
+                                    <a href="{% url 'eliminar_prestamo' p.id %}" class="btn-eliminar">Eliminar</a>
+                                </div>
+                            </td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center py-3">No hay registros de préstamos activos.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+{% endblock codigoDinamico %}

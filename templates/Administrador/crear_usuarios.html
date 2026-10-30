@@ -1,0 +1,46 @@
+{% extends "Administrador/index.html" %}
+{% load static %}
+
+{% block title %}
+    Crear Usuario - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+
+<main class="main-content">
+
+    <section class="products-section">
+
+        <h1 class="section-title uppercase tracking-wider">
+            Crear Usuario
+        </h1>
+
+        <form action="" method="post">
+
+            {% csrf_token %}
+
+            <div class="form-container">
+
+                {{ form.as_p }}
+
+            </div>
+
+            <div class="products-actions">
+
+                <button type="submit" class="btn-nuevo-usuarios">
+                    Crear Usuario
+                </button>
+
+                <a href="{% url 'usuarios' %}" class="btn-cancelar">
+                    Cancelar
+                </a>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</main>
+
+{% endblock codigoDinamico %}

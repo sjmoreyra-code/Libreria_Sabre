@@ -1,0 +1,47 @@
+{% extends "Administrador/base.html" %}
+{% load static %}
+
+{% block title %}
+    Registrar Libro - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+
+<main class="main-content">
+
+    <section class="products-section">
+
+        <div class="products-header">
+
+            <h1 class="section-title uppercase tracking-wider">
+                Registrar Nuevo Libro
+            </h1>
+
+        </div>
+
+        <div class="table-container">
+
+            <form method="POST" action="{% url 'crear_libros' %}">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                    <button type="submit" class="btn-nuevo-libro">
+                        Guardar Libro
+                    </button>
+                    <a href="{% url 'libros' %}" class="btn-buscar-libros">
+                        Cancelar
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</main>
+
+{% endblock codigoDinamico %}

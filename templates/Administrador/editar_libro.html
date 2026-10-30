@@ -1,0 +1,42 @@
+{% extends "Administrador/index.html" %}
+{% load static %}
+
+{% block title %}
+    Editar Libro - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+
+<main class="main-content">
+
+    <section class="products-section">
+
+        <div class="products-header">
+
+            <h1 class="section-title uppercase tracking-wider">
+                EDITAR LIBRO
+            </h1>
+
+        </div>
+
+        <div class="table-container">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit" class="btn-nuevo-libro">
+                    Guardar Cambios
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</main>
+
+{% endblock codigoDinamico %}

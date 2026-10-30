@@ -1,0 +1,78 @@
+{% extends "Administrador/base.html" %}
+{% load static %}
+
+{% block title %}
+    Crear Cuenta - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+<main class="main-content flex justify-center items-center py-10">
+    <section class="products-section formulario-centrado w-full max-w-lg mx-auto">
+        
+        <!-- Encabezado del Formulario -->
+        <div class="products-header flex-col items-center text-center mb-6 border-b-0 pb-0">
+            <div class="service-icon-box mx-auto mb-3">
+                <span class="material-symbols-outlined">person_add</span>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-wider text-yellow-400 mb-1">
+                Tu Espacio Personal
+            </span>
+            <h1 class="section-title uppercase tracking-tight text-2xl font-bold align-self-center">
+                Crear Cuenta
+            </h1>
+            <p class="text-sm text-gray-300 mt-2">
+                Registrate para acceder a los servicios de Biblioteca SaBré.
+            </p>
+        </div>
+
+        <!-- Alertas y Mensajes de Estado -->
+        {% if messages %}
+            <div class="mb-6">
+                {% for message in messages %}
+                    <div class="p-3 mb-2 rounded text-sm text-center {% if message.tags == 'error' %}bg-red-900/80 text-red-200 border border-red-500{% else %}bg-green-900/80 text-green-200 border border-green-500{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Formulario de Registro -->
+        <form method="POST" action="{% url 'registro_usuario' %}" class="formulario-registro">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="campo-grupo">
+                    <label for="{{ field.id_for_label }}" class="label-campo">
+                        {{ field.label }}:
+                    </label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <span class="error-campo">{{ field.errors.0 }}</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <!-- Botón Principal -->
+            <button type="submit" class="btn-nuevo-libro text-center w-full justify-center mt-4">
+                + Crear Cuenta
+            </button>
+        </form>
+
+        <!-- Enlace a Iniciar Sesión -->
+        <div class="mt-8 pt-6 border-t border-gray-800 text-center">
+            <p class="text-gray-300 text-sm mb-3">
+                ¿Ya tenés una cuenta?
+            </p>
+            <a href="{% url 'login' %}" class="btn-buscar-libros text-center justify-center w-full">
+                Iniciar Sesión
+            </a>
+        </div>
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'index' %}" class="btn-cancelar w-full block text-center">
+                ← Volver al inicio
+            </a>
+        </div>
+    </section>
+</main>
+{% endblock codigoDinamico %}

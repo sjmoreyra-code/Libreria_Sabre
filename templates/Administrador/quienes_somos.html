@@ -1,0 +1,34 @@
+{% extends "Administrador/base.html" %}
+{% load static %}
+
+{% block title %}
+    Quiénes Somos - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+<main class="main-content">
+    <section class="products-section">
+        <div class="products-header">
+            <h1 class="section-title uppercase tracking-wider">
+                Quiénes Somos
+            </h1>
+        </div>
+        <div class="table-container p-6">
+            <p class="mb-4 font-body-lg">
+                La <strong>Biblioteca SaBré</strong> es un espacio cultural inclusivo comprometido con garantizar el acceso universal a la lectura, el aprendizaje y la información para toda la comunidad.
+            </p>
+            <p class="mb-4 font-body-lg">
+                Nuestra misión principal es eliminar las barreras físicas, visuales y tecnológicas, ofreciendo un catálogo accesible adaptado a personas con diversas capacidades visuales y cognitivas.
+            </p>
+            <div class="mt-6 p-4 border border-yellow-500/30 rounded-lg bg-black/20">
+                <h3 class="font-bold text-xl mb-2 text-primary">Nuestros Valores Principales</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><strong>Accesibilidad Universal:</strong> Formatos adaptados en Braille, macrocaracteres y audiolibros.</li>
+                    <li><strong>Inclusión Social:</strong> Puestos informáticos equipados con lectores de pantalla.</li>
+                    <li><strong>Comunidad y Cultura:</strong> Talleres formativos y espacios de encuentro adaptados.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock codigoDinamico %}

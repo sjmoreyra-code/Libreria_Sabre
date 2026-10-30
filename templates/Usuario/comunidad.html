@@ -1,0 +1,562 @@
+{% extends "Usuario/base_usuario.html" %}
+
+{% block title %}BIBLIOTECA SaBré - Comunidad{% endblock %}
+
+{% block encabezado %}
+<header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]">
+    <div class="h-16 px-gutter-mobile flex items-center justify-between">
+        <div class="flex items-center gap-space-sm">
+            <button type="button"
+                    id="boton-menu"
+                    aria-label="Abrir menú"
+                    aria-expanded="false"
+                    aria-controls="menu-lateral"
+                    class="boton-menu w-12 h-12 flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-[26px]">menu</span>
+            </button>
+
+            <div class="flex flex-col">
+                <span class="font-headline-lg-mobile text-headline-lg-mobile text-primary-container uppercase tracking-tight">BIBLIOTECA SaBré</span>
+                <span class="font-label-uppercase text-label-uppercase text-on-surface-variant uppercase tracking-wider">Comunidad</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-space-xs">
+            <button aria-label="Opciones de Accesibilidad" class="h-11 px-space-sm flex items-center gap-1 bg-surface-container hover:bg-surface-container-high text-primary-container font-button-text text-button-text uppercase transition-colors">
+                <span class="material-symbols-outlined text-[20px]">accessibility_new</span>
+                <span class="hidden xs:inline text-xs">Acceso</span>
+            </button>
+
+            <button aria-label="Alternar modo claro u oscuro" class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 text-on-primary hover:bg-primary-container transition-colors focus:outline-none" onclick="document.documentElement.classList.toggle('dark')">
+                <span class="material-symbols-outlined text-on-primary text-[18px]">dark_mode</span>
+            </button>
+
+            <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block fondo_menu %}
+<!-- Fondo oscuro del menú -->
+<div id="fondo-menu" class="fondo-menu" hidden></div>
+{% endblock %}
+
+{% block menu_lateral %}
+<!-- Menú lateral -->
+<aside id="menu-lateral"
+       class="menu-lateral"
+       aria-label="Menú principal"
+       aria-hidden="true"
+       inert>
+
+    <div class="menu-lateral-cabecera">
+        <strong>BIBLIOTECA SaBré</strong>
+
+        <button type="button"
+                id="cerrar-menu"
+                aria-label="Cerrar menú">
+            ✕
+        </button>
+    </div>
+
+    <nav class="menu-lateral-enlaces">
+        <a href="{% url 'index_usuario' %}">Inicio</a>
+        <a href="{% url 'usuario_catalogo' %}">Catálogo</a>
+        <a href="{% url 'usuario_prestamos' %}">Préstamos</a>
+        <a href="{% url 'usuario_historial' %}">Historial</a>
+        <a href="{% url 'usuario_comunidad' %}">Comunidad</a>
+        <a href="{% url 'usuario_perfil' %}">Perfil</a>
+    </nav>
+</aside>
+{% endblock %}
+
+{% block contenido %}
+<!-- Contenido Principal -->
+<main class="flex flex-col relative w-full pt-20 pb-24 bg-surface min-h-screen px-gutter-mobile">
+    <div class="flex flex-col w-full pb-6 space-y-space-sm">
+
+        <!-- Banner de Bienvenida -->
+        <section class="w-full bg-surface-container-low p-space-sm rounded-xl relative overflow-hidden shadow-md">
+            <div class="flex items-start gap-space-sm">
+                <div class="w-11 h-11 rounded-xl bg-primary-container flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-on-primary text-[26px]" style="font-variation-settings: 'FILL' 1;">groups</span>
+                </div>
+
+                <div class="flex flex-col min-w-0">
+                    <span class="font-label-uppercase text-label-uppercase text-primary-container tracking-wider uppercase">Ágora Cívica Accesible</span>
+                    <h2 class="font-headline-md text-headline-md text-primary mt-0.5 tracking-tight">COMUNIDAD SABRÉ</h2>
+                    <p class="font-body-base text-body-base text-secondary mt-1">Espacio de Encuentro e Intercambio Libre. Comparte tu voz, califica nuestras obras e impulsa el desarrollo de la biblioteca.</p>
+                </div>
+            </div>
+
+            <div class="mt-space-xs bg-surface-container-lowest p-space-xs px-space-sm rounded-lg flex items-center gap-space-xs">
+                <span class="material-symbols-outlined text-primary-container text-[20px] shrink-0">verified_user</span>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    <strong class="text-primary font-bold">Privacidad Blindada:</strong> Solo se muestra tu alias público de lector, nunca tu nombre real ni datos de contacto.
+                </p>
+            </div>
+        </section>
+
+        <!-- Navegación por Pestañas -->
+        <section aria-label="Secciones de la Comunidad" class="w-full">
+            <div class="grid grid-cols-3 gap-1 bg-surface-container-lowest p-1 rounded-xl shadow-sm" role="tablist">
+                <button id="tab-community-exp" class="tab-community-btn flex flex-col items-center justify-center py-2 px-1 rounded-lg bg-primary-container text-on-primary font-button-text text-button-text uppercase tracking-wider transition-all" role="tab" aria-selected="true">
+                    <span class="material-symbols-outlined text-[20px] mb-0.5">forum</span>
+                    <span class="truncate w-full text-center">Experiencias</span>
+                </button>
+
+                <button id="tab-community-val" class="tab-community-btn flex flex-col items-center justify-center py-2 px-1 rounded-lg bg-transparent text-secondary hover:text-primary font-button-text text-button-text uppercase tracking-wider transition-all" role="tab" aria-selected="false">
+                    <span class="material-symbols-outlined text-[20px] mb-0.5">star</span>
+                    <span class="truncate w-full text-center">Valoraciones</span>
+                </button>
+
+                <button id="tab-community-sug" class="tab-community-btn flex flex-col items-center justify-center py-2 px-1 rounded-lg bg-transparent text-secondary hover:text-primary font-button-text text-button-text uppercase tracking-wider transition-all" role="tab" aria-selected="false">
+                    <span class="material-symbols-outlined text-[20px] mb-0.5">lightbulb</span>
+                    <span class="truncate w-full text-center">Sugerencias</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- PANEL 1: EXPERIENCIAS -->
+        <div id="panel-experiencias" class="flex flex-col space-y-space-sm w-full" role="tabpanel">
+            <div class="w-full flex items-center justify-between bg-surface-container p-space-sm rounded-xl">
+                <div class="flex items-center gap-space-xs">
+                    <span class="material-symbols-outlined text-primary-container text-[22px]">record_voice_over</span>
+                    <span class="font-title-card text-title-card text-primary">Voces Ciudadanas</span>
+                </div>
+
+                <button id="btn-open-share-modal" class="h-10 px-space-sm bg-primary-container text-on-primary hover:bg-primary font-button-text text-button-text uppercase rounded-lg flex items-center gap-1.5 shadow-sm active:scale-95 transition-transform">
+                    <span class="material-symbols-outlined text-[20px]">add_comment</span>
+                    <span>+ Compartir</span>
+                </button>
+            </div>
+
+            <!-- Formulario Desplegable para Publicar -->
+            <div id="share-modal-box" class="hidden flex-col bg-surface-container-high p-space-md rounded-xl space-y-space-sm shadow-md">
+                <div class="flex justify-between items-center">
+                    <span class="font-headline-md text-headline-md text-primary">Tu Vivencia en SaBré</span>
+                    <button id="btn-close-share-modal" class="w-10 h-10 flex items-center justify-center text-secondary hover:text-primary">
+                        <span class="material-symbols-outlined text-[24px]">close</span>
+                    </button>
+                </div>
+
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Publica con tu seudónimo verificado (<strong class="text-primary-container">@LectorLibre</strong>). Comparte opiniones sobre lecturas, adaptaciones y talleres.</p>
+
+                <div class="flex flex-col space-y-1">
+                    <label class="font-label-uppercase text-label-uppercase text-primary uppercase" for="experience-category">Eje Temático</label>
+                    <div class="relative">
+                        <select id="experience-category" class="w-full h-12 bg-surface-container-lowest text-primary px-3 rounded-lg appearance-none font-body-base text-body-base focus:outline-none focus:ring-2 focus:ring-primary-container">
+                            <option value="General">General / Opinión Libre</option>
+                            <option value="Audiolibros">Audiolibros y Narración Sonora</option>
+                            <option value="Macrotexto">Macrotexto y Formato Braille</option>
+                            <option value="Talleres">Talleres y Grupos de Lectura</option>
+                        </select>
+                        <span class="material-symbols-outlined absolute right-3 top-3 pointer-events-none text-secondary">expand_more</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col space-y-1">
+                    <label class="font-label-uppercase text-label-uppercase text-primary uppercase" for="experience-text">Testimonio o Recomendación</label>
+                    <textarea id="experience-text" rows="3" placeholder="Escribe tu comentario sobre un libro o servicio..." class="w-full bg-surface-container-lowest text-primary p-3 rounded-lg font-body-base text-body-base placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary-container"></textarea>
+                </div>
+
+                <button id="btn-publish-experience" class="w-full h-12 bg-primary-container text-on-primary font-button-text text-button-text uppercase rounded-lg flex items-center justify-center gap-2 active:scale-98 transition-transform">
+                    <span class="material-symbols-outlined text-[20px]">send</span>
+                    <span>Publicar en el Muro Comunitario</span>
+                </button>
+            </div>
+
+            <!-- Muro de Experiencias -->
+            <div id="experience-feed" class="flex flex-col space-y-space-sm">
+                <!-- Tarjeta 1 -->
+                <article class="bg-surface-container-low p-space-sm rounded-xl flex flex-col space-y-space-xs shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-space-xs">
+                            <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-primary-container text-[22px]">person</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-button-text text-button-text text-primary-container">@LectorComunitario</span>
+                                <span class="font-body-sm text-body-sm text-on-surface-variant">Socio Activo • Hace 2 días</span>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-uppercase text-label-uppercase">Audiolibros</span>
+                    </div>
+
+                    <p class="font-body-base text-body-base text-on-surface pt-0.5">
+                        "Escuché la versión sonora de <strong>Don Quijote de la Mancha</strong>. La calidad de voz dramatizada es genial y me ayudó muchísimo a completar mi lectura semanal."
+                    </p>
+
+                    <div class="flex items-center justify-between pt-space-xs text-on-surface-variant">
+                        <button class="btn-like-post flex items-center gap-1 text-primary-container hover:opacity-80">
+                            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+                            <span class="font-body-sm text-body-sm font-bold"><span class="like-count">28</span> coincidieron</span>
+                        </button>
+                        <span class="font-body-sm text-body-sm text-secondary">Verificado</span>
+                    </div>
+                </article>
+
+                <!-- Tarjeta 2 -->
+                <article class="bg-surface-container-low p-space-sm rounded-xl flex flex-col space-y-space-xs shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-space-xs">
+                            <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-primary-container text-[22px]">person</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-button-text text-button-text text-primary-container">@RosaLectora</span>
+                                <span class="font-body-sm text-body-sm text-on-surface-variant">Club de Lectura • Hace 5 días</span>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-uppercase text-label-uppercase">Macrotexto</span>
+                    </div>
+
+                    <p class="font-body-base text-body-base text-on-surface pt-0.5">
+                        "Pedí el ejemplar impreso en tipografía ampliada de <strong>Cien Años de Soledad</strong>. El interlineado generoso permite leer sin fatiga visual. ¡Muy recomendado!"
+                    </p>
+
+                    <div class="flex items-center justify-between pt-space-xs text-on-surface-variant">
+                        <button class="btn-like-post flex items-center gap-1 text-primary-container hover:opacity-80">
+                            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+                            <span class="font-body-sm text-body-sm font-bold"><span class="like-count">19</span> coincidieron</span>
+                        </button>
+                        <span class="font-body-sm text-body-sm text-secondary">Sede Central</span>
+                    </div>
+                </article>
+
+                <!-- Tarjeta 3 -->
+                <article class="bg-surface-container-low p-space-sm rounded-xl flex flex-col space-y-space-xs shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-space-xs">
+                            <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-primary-container text-[22px]">person</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-button-text text-button-text text-primary-container">@MateoEstudiante</span>
+                                <span class="font-body-sm text-body-sm text-on-surface-variant">Economía • Hace 1 semana</span>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-uppercase text-label-uppercase">Estudio</span>
+                    </div>
+
+                    <p class="font-body-base text-body-base text-on-surface pt-0.5">
+                        "Excelente catálogo para materias de Ciencias Sociales. Consulté los volúmenes de <strong>Economía Política</strong> y pude estudiar sin inconvenientes."
+                    </p>
+
+                    <div class="flex items-center justify-between pt-space-xs text-on-surface-variant">
+                        <button class="btn-like-post flex items-center gap-1 text-primary-container hover:opacity-80">
+                            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+                            <span class="font-body-sm text-body-sm font-bold"><span class="like-count">34</span> coincidieron</span>
+                        </button>
+                        <span class="font-body-sm text-body-sm text-secondary">Sala Adaptada</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <!-- PANEL 2: VALORACIONES DE LIBROS Y SERVICIOS -->
+        <div id="panel-valoraciones" class="hidden flex-col space-y-space-md w-full" role="tabpanel">
+
+            <!-- Puntuación Global -->
+            <section class="bg-surface-container p-space-md rounded-xl flex flex-col items-center justify-center text-center shadow-md">
+                <span class="font-label-uppercase text-label-uppercase text-on-surface-variant uppercase tracking-widest">Índice de Satisfacción General</span>
+
+                <div class="flex items-baseline gap-2 mt-1">
+                    <span class="font-display-hero text-display-hero text-primary-container font-black">4.9</span>
+                    <span class="font-headline-md text-headline-md text-secondary">/ 5.0</span>
+                </div>
+
+                <div class="flex items-center gap-1 text-primary-container my-1">
+                    <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                </div>
+
+                <p class="font-body-sm text-body-sm text-secondary">Valoraciones de 842 usuarios en el catálogo de libros y servicios.</p>
+            </section>
+
+            <!-- Valoración Individual de Obras Populares -->
+            <section class="flex flex-col space-y-space-sm">
+                <h3 class="font-headline-md text-headline-md text-primary">Libros Más Valorados</h3>
+
+                <!-- Libro 1 -->
+                <div class="bg-surface-container-low p-space-md rounded-xl flex flex-col space-y-2 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary-container text-[20px]">book</span>
+                            <span class="font-title-card text-title-card text-primary">Cien Años de Soledad</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-primary-container font-headline-md text-headline-md">
+                            <span>5.0</span>
+                            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                        </div>
+                    </div>
+                    <p class="font-body-sm text-body-sm text-secondary">Gabriel García Márquez • Novela Realismo Mágico</p>
+                    <div class="w-full h-2.5 bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="h-full bg-primary-container rounded-full" style="width: 100%;"></div>
+                    </div>
+                </div>
+
+                <!-- Libro 2 -->
+                <div class="bg-surface-container-low p-space-md rounded-xl flex flex-col space-y-2 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary-container text-[20px]">book</span>
+                            <span class="font-title-card text-title-card text-primary">Don Quijote de la Mancha</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-primary-container font-headline-md text-headline-md">
+                            <span>4.8</span>
+                            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                        </div>
+                    </div>
+                    <p class="font-body-sm text-body-sm text-secondary">Miguel de Cervantes • Clásico Universal</p>
+                    <div class="w-full h-2.5 bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="h-full bg-primary-container rounded-full" style="width: 96%;"></div>
+                    </div>
+                </div>
+
+                <!-- Libro 3 -->
+                <div class="bg-surface-container-low p-space-md rounded-xl flex flex-col space-y-2 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary-container text-[20px]">book</span>
+                            <span class="font-title-card text-title-card text-primary">Economía Política</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-primary-container font-headline-md text-headline-md">
+                            <span>4.9</span>
+                            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                        </div>
+                    </div>
+                    <p class="font-body-sm text-body-sm text-secondary">Texto Académico • Ciencias Sociales</p>
+                    <div class="w-full h-2.5 bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="h-full bg-primary-container rounded-full" style="width: 98%;"></div>
+                    </div>
+                </div>
+
+                <!-- Libro 4 -->
+                <div class="bg-surface-container-low p-space-md rounded-xl flex flex-col space-y-2 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary-container text-[20px]">book</span>
+                            <span class="font-title-card text-title-card text-primary">Poesía Completa</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-primary-container font-headline-md text-headline-md">
+                            <span>4.7</span>
+                            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                        </div>
+                    </div>
+                    <p class="font-body-sm text-body-sm text-secondary">Antología Poética • Selección Especial</p>
+                    <div class="w-full h-2.5 bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="h-full bg-primary-container rounded-full" style="width: 94%;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Formulario Interactivo para Calificar un Libro / Servicio -->
+            <div class="bg-surface-container p-space-md rounded-xl flex flex-col space-y-space-sm shadow-sm">
+                <h3 class="font-headline-md text-headline-md text-primary">Registrar una Valoración</h3>
+                <p class="font-body-base text-body-base text-secondary">Selecciona una obra o servicio y presiona las estrellas para evaluarlo:</p>
+
+                <div class="flex flex-col space-y-1">
+                    <label class="font-label-uppercase text-label-uppercase text-primary uppercase" for="select-item-rating">Elegir Item</label>
+                    <select id="select-item-rating" class="w-full h-12 bg-surface-container-lowest text-primary px-3 rounded-lg appearance-none font-body-base text-body-base focus:outline-none focus:ring-2 focus:ring-primary-container">
+                        <option value="Don Quijote de la Mancha">Don Quijote de la Mancha</option>
+                        <option value="Economía Política">Economía Política</option>
+                        <option value="Cien Años de Soledad">Cien Años de Soledad</option>
+                        <option value="Poesía Completa">Poesía Completa</option>
+                        <option value="Atención y Servicio">Atención General de Biblioteca</option>
+                    </select>
+                </div>
+
+                <!-- Estrellas de puntuación -->
+                <div id="interactive-star-rating" class="flex items-center justify-around py-3 bg-surface-container-lowest rounded-lg">
+                    <button data-score="1" class="star-btn p-2 text-secondary hover:text-primary-container transition-colors focus:outline-none" aria-label="1 estrella">
+                        <span class="material-symbols-outlined text-[32px]">star</span>
+                    </button>
+
+                    <button data-score="2" class="star-btn p-2 text-secondary hover:text-primary-container transition-colors focus:outline-none" aria-label="2 estrellas">
+                        <span class="material-symbols-outlined text-[32px]">star</span>
+                    </button>
+
+                    <button data-score="3" class="star-btn p-2 text-secondary hover:text-primary-container transition-colors focus:outline-none" aria-label="3 estrellas">
+                        <span class="material-symbols-outlined text-[32px]">star</span>
+                    </button>
+
+                    <button data-score="4" class="star-btn p-2 text-secondary hover:text-primary-container transition-colors focus:outline-none" aria-label="4 estrellas">
+                        <span class="material-symbols-outlined text-[32px]">star</span>
+                    </button>
+
+                    <button data-score="5" class="star-btn p-2 text-secondary hover:text-primary-container transition-colors focus:outline-none" aria-label="5 estrellas">
+                        <span class="material-symbols-outlined text-[32px]">star</span>
+                    </button>
+                </div>
+
+                <button id="btn-submit-rating" class="w-full h-12 bg-primary-container text-on-primary font-button-text text-button-text uppercase rounded-lg flex items-center justify-center gap-2 active:scale-98 transition-transform">
+                    <span class="material-symbols-outlined text-[20px]">grade</span>
+                    <span>Enviar Valoración</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- PANEL 3: SUGERENCIAS -->
+        <div id="panel-sugerencias" class="hidden flex-col space-y-space-md w-full" role="tabpanel">
+            <section class="bg-surface-container-low p-space-md rounded-xl space-y-space-md shadow-md">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-[24px]">tips_and_updates</span>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <h3 class="font-headline-md text-headline-md text-primary">Buzón de Sugerencias</h3>
+                        <p class="font-body-base text-body-base text-secondary mt-0.5">Propón adquisiciones de libros, audiolibros o mejoras para la biblioteca.</p>
+                    </div>
+                </div>
+
+                <form id="suggestion-form" class="flex flex-col space-y-space-sm" onsubmit="return false;">
+                    <div class="flex flex-col space-y-1">
+                        <label class="font-label-uppercase text-label-uppercase text-primary uppercase" for="suggestion-type">Tipo de Propuesta</label>
+
+                        <div class="relative">
+                            <select id="suggestion-type" required class="w-full h-12 bg-surface-container-lowest text-primary px-3 rounded-lg appearance-none font-body-base text-body-base focus:outline-none focus:ring-2 focus:ring-primary-container">
+                                <option value="Nuevo Libro">Solicitud de Nuevo Libro o Audiolibro</option>
+                                <option value="Taller">Propuesta de Taller / Actividad</option>
+                                <option value="Accesibilidad">Sugerencia de Accesibilidad</option>
+                                <option value="Otro">Otras Mejoras</option>
+                            </select>
+
+                            <span class="material-symbols-outlined absolute right-3 top-3 pointer-events-none text-secondary">expand_more</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col space-y-1">
+                        <label class="font-label-uppercase text-label-uppercase text-primary uppercase" for="suggestion-title">Título o Asunto</label>
+                        <input id="suggestion-title" type="text" required placeholder="Ej: Adquisición de libro sobre Microeconomía" class="w-full h-12 bg-surface-container-lowest text-primary px-3 rounded-lg font-body-base text-body-base placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary-container">
+                    </div>
+
+                    <div class="flex flex-col space-y-1">
+                        <label class="font-label-uppercase text-label-uppercase text-primary uppercase" for="suggestion-body">Detalle de la Sugerencia</label>
+                        <textarea id="suggestion-body" rows="4" required placeholder="Explica tu idea y cómo beneficiaría a los lectores..." class="w-full bg-surface-container-lowest text-primary p-3 rounded-lg font-body-base text-body-base placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary-container"></textarea>
+                    </div>
+
+                    <div class="bg-surface-container p-3 rounded-lg flex items-center justify-between">
+                        <span class="font-body-sm text-body-sm text-secondary">Alias de envío:</span>
+                        <span class="font-button-text text-button-text text-primary-container">@LectorComunitario</span>
+                    </div>
+
+                    <button id="btn-submit-suggestion" type="button" class="w-full h-12 mt-2 bg-primary-container hover:bg-primary text-on-primary font-button-text text-button-text uppercase rounded-lg flex items-center justify-center gap-2 active:scale-98 transition-transform shadow-md">
+                        <span class="material-symbols-outlined text-[22px]">send</span>
+                        <span>ENVIAR SUGERENCIA</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Propuestas en proceso -->
+            <section class="flex flex-col space-y-space-sm">
+                <div class="flex items-center justify-between">
+                    <span class="font-title-card text-title-card text-primary">Iniciativas en Revisión</span>
+                    <span class="px-2 py-0.5 rounded bg-surface-container-highest text-primary-container font-label-uppercase text-label-uppercase">En Progreso</span>
+                </div>
+
+                <div class="bg-surface-container-low p-space-md rounded-xl flex flex-col space-y-space-xs shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <span class="font-button-text text-button-text text-primary">Club de Lectura Semanal</span>
+                        <span class="px-2 py-0.5 rounded bg-surface-container text-primary-container font-label-uppercase text-label-uppercase">Aprobada</span>
+                    </div>
+
+                    <p class="font-body-sm text-body-sm text-secondary">Propuesta enviada por la comunidad para encuentros de debate de libros narrados.</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- Toast para Notificaciones -->
+        <div id="community-toast" class="fixed bottom-20 left-4 right-4 z-50 bg-primary-container text-on-primary px-4 py-3 rounded-lg shadow-xl hidden items-center justify-between transition-all">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-[22px]">check_circle</span>
+                <span id="community-toast-message" class="font-button-text text-button-text">Acción realizada correctamente.</span>
+            </div>
+
+            <button id="btn-close-community-toast" class="text-on-primary">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+        </div>
+
+        <!-- Pie Institucional -->
+        <footer class="w-full bg-surface-container-lowest p-space-sm rounded-xl flex flex-col items-center justify-center text-center space-y-1.5 mt-space-sm">
+            <div class="flex items-center gap-2 text-primary-container">
+                <span class="material-symbols-outlined text-[20px]">local_library</span>
+                <span class="font-headline-md text-headline-md tracking-wider">BIBLIOTECA SaBré</span>
+            </div>
+
+            <p class="font-body-sm text-body-sm text-secondary max-w-sm">
+                Espacio comunitario abierto para el intercambio libre y la promoción de la lectura.
+            </p>
+
+            <span class="font-body-sm text-body-sm text-on-surface-variant pt-1">© 2026 Biblioteca SaBré</span>
+        </footer>
+
+    </div>
+</main>
+{% endblock %}
+
+{% block navegacion_inferior %}
+<!-- NAVEGACIÓN INFERIOR -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.5)]">
+
+    <div class="flex justify-around items-center h-16 px-space-xs">
+
+        <!-- Inicio -->
+        <a href="{% url 'index_usuario' %}"
+           class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[24px]">home</span>
+            <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Inicio</span>
+        </a>
+
+        <!-- Catálogo -->
+        <a href="{% url 'usuario_catalogo' %}"
+           class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[24px]">menu_book</span>
+            <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Catálogo</span>
+        </a>
+
+        <!-- Préstamos con indicador amarillo -->
+        <a href="{% url 'usuario_prestamos' %}"
+           class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary relative transition-colors">
+
+            <div class="relative flex items-center justify-center">
+                <span class="material-symbols-outlined text-[24px]">schedule</span>
+                <span class="absolute -top-1 -right-2 w-2.5 h-2.5 rounded-full bg-primary-container ring-2 ring-surface-container-lowest"></span>
+            </div>
+
+            <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Préstamos</span>
+        </a>
+
+        <!-- Historial -->
+        <a href="{% url 'usuario_historial' %}"
+           class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[24px]">history</span>
+            <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Historial</span>
+        </a>
+
+        <!-- Comunidad ACTIVA -->
+        <a href="{% url 'usuario_comunidad' %}"
+           aria-current="page"
+           class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-primary-container font-bold transition-colors">
+            <span class="material-symbols-outlined text-[24px]">groups</span>
+            <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Comunidad</span>
+        </a>
+
+        <!-- Perfil -->
+        <a href="{% url 'usuario_perfil' %}"
+           class="flex flex-col items-center justify-center min-w-[56px] min-h-[48px] py-1 text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[24px]">account_circle</span>
+            <span class="font-label-uppercase text-[11px] leading-tight mt-0.5">Perfil</span>
+        </a>
+
+    </div>
+</nav>
+{% endblock %}

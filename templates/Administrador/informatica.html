@@ -1,0 +1,37 @@
+{% extends "Administrador/base.html" %}
+{% load static %}
+
+{% block title %}
+    Informática Accesible - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+<main class="main-content">
+    <section class="products-section">
+        <div class="products-header">
+            <h1 class="section-title uppercase tracking-wider">
+                Puestos de Informática Accesible
+            </h1>
+        </div>
+        <div class="table-container p-6">
+            <p class="mb-4 font-body-lg">
+                Nuestra sala digital está totalmente adaptada con tecnología de apoyo y ayudas técnicas avanzadas.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                <div class="p-4 border border-gray-700 rounded-lg">
+                    <h3 class="font-bold mb-2">Lectores de Pantalla</h3>
+                    <p class="text-sm">Software NVDA y JAWS configurados en todos los ordenadores.</p>
+                </div>
+                <div class="p-4 border border-gray-700 rounded-lg">
+                    <h3 class="font-bold mb-2">Magnificadores</h3>
+                    <p class="text-sm">Pantallas de gran formato y aplicaciones de aumento para baja visión.</p>
+                </div>
+                <div class="p-4 border border-gray-700 rounded-lg">
+                    <h3 class="font-bold mb-2">Teclados Adaptados</h3>
+                    <p class="text-sm">Periféricos de contraste con caracteres ampliados y guía táctil.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock codigoDinamico %}

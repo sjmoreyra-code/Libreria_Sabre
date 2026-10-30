@@ -1,0 +1,65 @@
+{% extends "Administrador/index.html" %}
+
+{% block title %}
+    Registrar devolución - BIBLIOTECA SaBré
+{% endblock title %}
+
+{% block codigoDinamico %}
+
+<main class="main-content">
+    <section class="products-section">
+
+        <div class="products-header">
+            <h1 class="section-title uppercase tracking-wider">
+                Registrar devolución
+            </h1>
+        </div>
+
+        <div class="table-container">
+
+            <p>
+                ¿Confirmás que el libro
+                <strong>{{ prestamo.libro.titulo_libro }}</strong>,
+                prestado a
+                <strong>{{ prestamo.usuario.nombre_usuario }}</strong>,
+                fue devuelto?
+            </p>
+
+            <p>
+                Fecha del préstamo:
+                {{ prestamo.fecha_prestamo|date:"d/m/Y" }}
+            </p>
+
+            <p>
+                Fecha prevista de devolución:
+                {% if prestamo.fecha_devolucion_prevista %}
+                    {{ prestamo.fecha_devolucion_prevista|date:"d/m/Y" }}
+                {% else %}
+                    Sin fecha prevista
+                {% endif %}
+            </p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <button type="submit" class="btn-nuevo-libro">
+                    Confirmar devolución
+                </button>
+
+                <a href="{% url 'prestamos' %}" class="btn-editar">
+                    Cancelar
+                </a>
+            </form>
+
+        </div>
+
+    </section>
+</main>
+
+{% endblock codigoDinamico %}
+creo que no esta: 
+{% if not p.devolucion_registrada %}
+    <a href="{% url 'registrar_devolucion' p.id %}" class="btn-editar">
+        Registrar devolución
+    </a>
+{% endif %}

@@ -1,0 +1,249 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>
+        {% block title %}
+            BIBLIOTECA SaBré - Acceso Total
+        {% endblock title %}
+    </title>
+
+    <!-- Fuentes e Iconos de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Estilos locales de Django Staticfiles -->
+    <link rel="stylesheet" href="{% static 'Administrador/style.css' %}">
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-lg">
+
+<div class="encabezado-fijo" style="
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+">
+
+    <!-- BARRA DE ACCESIBILIDAD DINÁMICA (A+, A-, Lector de Voz) -->
+    <div class="barra-accesibilidad-global" style="background-color: #111; border-bottom: 2px solid var(--primary, #ffd700); padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-weight: bold; color: var(--primary, #ffd700); font-size: 0.9rem;">Tamaño de Texto:</span>
+            <button type="button" id="btn-reducir-letra" title="Reducir letra" style="background: #222; color: #fff; border: 1px solid #ffd700; padding: 0.2rem 0.6rem; font-weight: bold; cursor: pointer; border-radius: 4px;">A−</button>
+            <button type="button" id="btn-restablecer-letra" title="Tamaño normal" style="background: #222; color: #fff; border: 1px solid #ffd700; padding: 0.2rem 0.6rem; font-weight: bold; cursor: pointer; border-radius: 4px;">A</button>
+            <button type="button" id="btn-aumentar-letra" title="Aumentar letra" style="background: #222; color: #fff; border: 1px solid #ffd700; padding: 0.2rem 0.6rem; font-weight: bold; cursor: pointer; border-radius: 4px;">A+</button>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-weight: bold; color: var(--primary, #ffd700); font-size: 0.9rem;">Lector de Pantalla:</span>
+            <button type="button" id="btn-leer-pagina" style="background: var(--primary, #ffd700); color: #000; border: none; padding: 0.3rem 0.8rem; font-weight: bold; cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 0.3rem;">
+                <span class="material-symbols-outlined" style="font-size: 1.2rem;">volume_up</span> Escuchar Página
+            </button>
+            <button type="button" id="btn-detener-audio" style="background: #dc3545; color: #fff; border: none; padding: 0.3rem 0.8rem; font-weight: bold; cursor: pointer; border-radius: 4px; display: none;">
+                Detener Audio
+            </button>
+        </div>
+    </div>
+
+    <!-- Header / Barra de Navegación Principal -->
+    <header class="header-main">
+    <div class="nav-container">
+        <!-- Logo Principal -->
+        <a href="{% url 'index' %}" class="logo-title">
+            BIBLIOTECA SaBré
+        </a>
+
+        <!-- Enlaces del Menú Principal -->
+        <ul class="nav-links">
+            <li><a href="{% url 'quienes_somos' %}" class="nav-link">Quiénes Somos</a></li>
+            <li><a href="{% url 'prestamos' %}" class="nav-link">Préstamos</a></li>
+            <li><a href="{% url 'audiolibros' %}" class="nav-link">Audio Libro</a></li>
+            <li><a href="{% url 'braille' %}" class="nav-link">Braille</a></li>
+            <li><a href="{% url 'talleres' %}" class="nav-link">Talleres</a></li>
+            <li><a href="{% url 'informatica' %}" class="nav-link">Informática</a></li>
+            <li><a href="{% url 'libros' %}" class="nav-link">Libros</a></li>
+        </ul>
+
+        <!-- Grupo de Botones de Acción -->
+        <div class="header-actions">
+            <!-- Icono de Búsqueda -->
+            <a href="{% url 'buscar_libros' %}" class="btn-search-icon" title="Buscar libros">
+                <span class="material-symbols-outlined">search</span>
+            </a>
+
+            <!-- Botón Registrarse -->
+            <a href="{% url 'registro_usuario' %}" class="btn-accessibility">
+                Registrarse
+            </a>
+
+            <!-- Botón Accesibilidad -->
+            <a href="{% url 'accesibilidad' %}" id="btn-accesibilidad" class="btn-accessibility">
+                Accesibilidad
+            </a>
+
+            <!-- Botón Iniciar Sesión -->
+            <a href="{% url 'login' %}" class="btn-accessibility">
+                Iniciar Sesión
+            </a>
+        </div>
+    </div>
+</header>
+</div>
+
+    <!-- Notificaciones Flash de Django -->
+    {% if messages %}
+        <div class="notificaciones-container" aria-live="polite" aria-atomic="true">
+            {% for message in messages %}
+                <div class="notificacion {{ message.tags }}" role="status">
+                    <span class="notificacion-icono" aria-hidden="true">✓</span>
+                    <span>{{ message }}</span>
+                    <button type="button" class="notificacion-cerrar" onclick="this.parentElement.remove()">×</button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Bloque Dinámico del contenido -->
+    {% block codigoDinamico %}
+    {% endblock codigoDinamico %}
+
+    <!-- Footer General -->
+    
+<!-- Footer Biblioteca SaBré -->
+<footer class="footer-main" style="
+    background-color: #0d0e10;
+    color: #e3e2e5;
+    border-top: 2px solid #d9ef00;
+    padding: 40px 5% 20px;
+">
+
+    <div style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 30px;
+        max-width: 1400px;
+        margin: 0 auto;
+    ">
+
+        <!-- Columna 1: Identidad -->
+        <div>
+            <h3 style="color: #d9ef00; margin-bottom: 15px;">
+                BIBLIOTECA SaBré
+            </h3>
+
+            <p>
+                Acceso universal a la cultura.
+                Una biblioteca diseñada sin barreras,
+                abierta a toda la comunidad.
+            </p>
+        </div>
+
+        <!-- Columna 2: Enlaces rápidos -->
+        <div>
+            <h3 style="color: #d9ef00; margin-bottom: 15px;">
+                Enlaces rápidos
+            </h3>
+
+            <nav aria-label="Enlaces rápidos del pie de página"
+                 style="display: flex; flex-direction: column; gap: 10px;">
+
+                <a class="footer-link" href="{% url 'index' %}">
+                    Inicio
+                </a>
+
+                <a class="footer-link" href="{% url 'quienes_somos' %}">
+                    Quiénes somos
+                </a>
+
+                <a class="footer-link" href="{% url 'libros' %}">
+                    Catálogo de libros
+                </a>
+
+                <a class="footer-link" href="{% url 'accesibilidad' %}">
+                    Accesibilidad
+                </a>
+
+            </nav>
+        </div>
+
+        <!-- Columna 3: Información legal -->
+        <div>
+            <h3 style="color: #d9ef00; margin-bottom: 15px;">
+                Información legal
+            </h3>
+
+            <nav aria-label="Información legal"
+                 style="display: flex; flex-direction: column; gap: 10px;">
+
+                <a class="footer-link"
+                   href="{% url 'politica_privacidad' %}">
+                    Política de Privacidad
+                </a>
+
+                <a class="footer-link"
+                   href="{% url 'terminos_condiciones' %}">
+                    Términos y Condiciones
+                </a>
+
+            </nav>
+        </div>
+
+        <!-- Columna 4: Contacto -->
+        <div>
+            <h3 style="color: #d9ef00; margin-bottom: 15px;">
+                Contacto
+            </h3>
+
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+
+                <a class="footer-link"
+                   href="mailto:bibliotecasabre@gmail.com">
+                    bibliotecasabre@gmail.com
+                </a>
+
+                <a class="footer-link"
+                   href="https://wa.me/5491172386469"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Contacto SaBré
+                </a>
+
+                <a class="footer-link" href="{% url 'index' %}#ubicacion">
+                    Nuestra ubicación
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+<!-- Copyright -->
+    <div style="
+    border-top: 1px solid #38393b;
+    margin-top: 30px;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.8;
+">
+    <p>
+        © 2026 BIBLIOTECA SaBré. Todos los derechos reservados.
+    </p>
+
+    <p>
+        Acceso universal a la cultura | Compromiso con la inclusión,
+        la accesibilidad y la protección de los datos personales.
+    </p>
+
+    <p>
+        Protección de datos personales conforme a la Ley N.º 25.326.
+    </p>
+</div>
+
+</footer>
+
+    <!-- Archivo de JavaScript Accesible -->
+    <script src="{% static 'Administrador/main.js' %}"></script>
+</body>
+</html>
